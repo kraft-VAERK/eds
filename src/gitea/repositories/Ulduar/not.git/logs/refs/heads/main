@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 0948660523c34dd7e1fa66466d079bb029d0ec85 Asaf <asaf@cidersecurity.io> 1648991928 +0300	clone: from http://localhost:3000/Wonderland/cheshire-cat.git
+0948660523c34dd7e1fa66466d079bb029d0ec85 d3c9717b03bb25aa544d63c4a06e35e37128efa7 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714994321 -0400	commit: testing file and pipeline
+d3c9717b03bb25aa544d63c4a06e35e37128efa7 5a754b1ebcb004270a0765f5bd93e04faa8a8399 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1715092892 -0400	commit: updated the pipeline for new registry
+5a754b1ebcb004270a0765f5bd93e04faa8a8399 4f753f64b7c3a337b40a7096d13553e23651243d Morten LAPTOP Jakobsen <mojak18@student.sdu.dk> 1715160199 +0200	commit: update
+4f753f64b7c3a337b40a7096d13553e23651243d 5095db8fbef3623c667e2d0bf3a8e1441c697017 Morten LAPTOP Jakobsen <mojak18@student.sdu.dk> 1715165818 +0200	commit: I know drone is comming
+5095db8fbef3623c667e2d0bf3a8e1441c697017 4dd8139e4b5c75941ea4a08dbd261e2cc521444e Morten LAPTOP Jakobsen <mojak18@student.sdu.dk> 1715165879 +0200	commit: python is the shit
+4dd8139e4b5c75941ea4a08dbd261e2cc521444e f0c19550a9168061d0033a3bccbfeb0a4c54aadc Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1715240483 -0400	commit: pushed fix

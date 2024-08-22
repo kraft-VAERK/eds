@@ -1,0 +1,85 @@
+\section{Ucloud - Infratructure as a Service (IaaS)}
+\label{sec:ucloud}
+The project's goal is to shed light on the security risks associated with using pipelines. 
+Most IaaS providers, such as GCP, AWS, Azure, and others, entail significant costs. 
+However, SDU is a partner in the recently launched Ucloud project, offering educators, professors, 
+and students like myself affordable access to real computing power, potentially provided as a grant for research projects.
+
+The operation of Ucloud differs somewhat from other IaaS providers. 
+Despite being an IaaS provider, I'd like to provide an overview of IaaS, emphasizing its characteristics. 
+Subsequently, I will delve into the unique aspects of how Ucloud functions and outline the distinctions 
+between Ucloud and other IaaS providers.
+
+
+\subsection{IaaS}
+\label{subsec:iaas}
+IaaS refers to a cloud computing service wherein the provider hosts 
+infrastructure components typically found in an on-premises data center. 
+These components include servers, storage, networking hardware, and the virtualization or hypervisor layer. 
+The provider also offers various accompanying services, such as detailed billing, monitoring, log access, security features,
+load balancing, clustering, and storage resiliency, encompassing backup, replication, and recovery (Source: \cite{iaas}).
+
+Ucloud bears some resemblance to a conventional IaaS provider but exhibits distinct characteristics. 
+The primary difference lies in Ucloud's focus on the university environment, 
+deviating from a public-oriented approach and the development of traditional applications. 
+Instead, Ucloud is designed for the utilization of computational power, akin to a regular IaaS, 
+with a specific emphasis on research and education.
+
+Given its tailored use for application development, 
+Ucloud does not necessitate certain security measures that would be essential for a more public-facing IaaS.
+
+\section{Ucloud and cloud infrastructure.}
+\label{sec:ucloud}
+For the project I decided that using the internal available cloud product ucloud would be sufficient, 
+to deploy the pipeline. Thinking that Ucloud would be able to supply or atleast help me with the request I would 
+have to create an infrastructure which relied on components spawned in docker images.
+
+The first problem I encountered with Ucloud\cite{ucloud} was the allocating of funds. For me to able to have access to the 
+computational power of ucloud they will have to grant me funds to be able to run their products. I dont have a problem with 
+the need of funds to run machines, its the allocation process for student like me that is questionable at best.
+When it comes to use of these machines things become very bureaucratical.
+I had to start with already some funds that were allocated to me for being a \ac{CS} student at University of Southern Denmark.
+
+
+The next problem was the nested virulization. Nested virtulization is important because, Ucloud will spawn 
+a virtual machine, on there bare metal for me which i then get granted access to. Since I want to run docker images
+i need to have access to the PID 1 on the given machines to have access the linux systemctl. If i don't
+have access to PID 1, I wont be able to start the docker daemon and therefore not be able to run docker images.
+
+Upon actualy being able to start working with Ucloud, the task of creating an infrastructure and using it publicly, was not as easy as I thought.
+The first problem was that Ucloud does not have a product where i can upload my own docker images, and then deploy them.
+I need to spawn machines and then run the docker image. Although this is not a huge problem, because actually 
+having access to the machines that runs the docker images is actually kinda nice.
+
+\subsection{Deployment and connection to Ucloud}
+\label{subsec:deployment-and-connetion-ucloud}
+\subsubsection{Deployment}
+\label{subsubsec:deployment-ucloud}
+
+Ucloud has different section of where you can deploy virtual machines. They are located at different universities around Denmark.
+Those that are being used are mostly located at SDU and AAU. SDU instances has a single issues that makes that made them inenligible for
+use and it's that they dont support nested virtualization. This is a problem, since the use of docker for the deployment of 
+gitea and in general for the project is crucial, but more on docker in \ref{docker}
+
+The AAU machines are spawned through the platform that ucloud supplies at \url{https://ucloud.aau.dk/}. How you spawn are machines is done 
+in a couple of steps, first you need to figure what OS and version you want of that. Next name your instance and what type of 
+virtual hardware you want. What was mostly used during the development of this project was 4 vCPU, 16GB RAM and 100GB disk.
+The last thing before spawning the instance is supply an SSH-key, which is used to connect to the instance.
+
+\subsubsection{Connection}
+\label{subsubsec:connection-ucloud}
+The connection to the instance is done through SSH. 
+The SSH-key that was supplied during the spawning of the instance is used to connect to the instance. One of the main issues of the 
+method of connetion is that there is no real possible for me to utilize the SSH connetion in a clever way. It is going to be done through 
+port forwarding between multiple machines located inside the AAU-cluster network, and even then it's not possible for the machines 
+to acutal be exposed to the internet as a web server. Because this is happening is becuase ucloud infrastructure is located behind a 
+firewall, which is in front of the network called The Danish Research Network (Forskningsnettet). This is a network that is
+used by all the universities in Denmark, and is used to connect them to the internet. The firewall is used to protect the
+infrastructure from attacks from the internet. For this project, that is a problem, since the Gitea server will have to be publicly available 
+for user to connect to it. 
+The solution to this problem was solved by using Ngrok.
+
+\subsection{Ngrok}
+\label{subsec:ngrok}
+
+

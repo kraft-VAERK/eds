@@ -1,0 +1,60 @@
+\section{Gitea - Git Server}
+
+\subsection{What is Gitea?}
+
+Gitea\cite{giteadocs} is a self-hosted \ac{Git}\cite{git} service. Similar to GitHub\cite{GitHub}, Gitea allows the user the ability to customize and run 
+their own Git server. Gitea has a lot of great features such as: Code hosting meaning you can host your own code on your own server.
+Code review, meaning that you are the developer will be able to review code before it is merged into the master branch.\\
+\ac{CI/CD}, having the ability to \ac{CI/CD} on your own server.
+Its open source, meaning that you'll be able to customize it to your liking and almost everything is 
+configurable.
+
+\subsection{Why Gitea?}
+Gitea for this project was a given choice. It holds all the keys for what the project demands.
+Firstly, it's open sourece, this means that I can customize it to fit the CTF i want and if i face problems, 
+there is most likely a way to circumvent it. Secondly, it has \ac{CI/CD} support, this means that the user 
+can have a external pipeline software such as Jenkins\cite{jenkinsio} or GitLab CI\cite{gitlab} to run tests on the code before it is
+merged into the master branch. Thirdly, it has code review. Now why would code review be important for a \ac{CTF} project?
+Will, since the pipeline can be configured in so many ways, and the runners for the pipeline will most likely execute code, 
+with either all privileges or at least with some more than a normal developer has. This means that might be some way 
+for a malicious user to exploit the pipeline and gain access to runner based on just asking for code reviews.
+
+
+\subsection{Gitea static installation}
+So for this project, having a static installation of Gitea, or rather an installation that is aimed towards 
+docker\cite{docker} deployment. That means, that the installation need to be a single image that the user can pull from 
+docker hub and run with minimal or no configuration.\\
+This means that the image needs to be build with a couple of predifined settings. 
+\begin{itemize}
+    \item First: Becuase of Gitea is an open source project and the source code is subjective to change at any time.
+    To circumvent this, the base image of Gitea is chosen to be version 1.16.5. Now why this version? After some testing and
+    observation of different project using a version earlier than 1.19.0 and the reading through the cicd-goat project\cite{cicd-goat}. 1.16.5 which is 
+    also used in \cite{cicd-goat} is the version with the most admin options.
+    This means that even though im using a long time on developing this project, the base image stay the same, and i 
+    can ensure that the end result will be same as when i started the project, and when the user pulls the image.
+    \item Second: The configuration of Gitea needs to be static. When Gitea is installed, it will prompt the installer of Gitea 
+    to specify what that person wants. This information will be stored in a special file called app.ini. This file is 
+    used by Gitea to configure itself\ref{fig:gitea_app_ini}. The rest of the app.ini file for this project
+    can be found the source code of the project under Gitea/app.ini.
+    \item Third: Users needs to be created at initialization, so that when the user start the image via docker-compose. 
+    The database is already populated with users, and the user can start using the service right away.
+    This is done with python3\cite{python} script which 
+    post users to the database via a \ac{RESTAPI}, with admin credentials.
+\end{itemize}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[scale=.5]{images/Gitea-appin.JPG}
+        \caption{Gitea app.ini}
+        \label{fig:gitea_app_ini}
+    \end{center}
+\end{figure}
+
+After these three steps are done, and they should be done without the user knowing anything about it, the user should be able to
+start the image and have a fully functional Gitea server to interact with.
+
+\subsection{Gitea remote}
+For the final project, the Gitea repository resides on a remote server. 
+This enables users to interact with the server from any location with internet access. Importantly, 
+even if the Gitea server goes offline, it can be swiftly restarted from scratch. 
+All necessary source code for instant restoration is available, eliminating the need for additional configurations.

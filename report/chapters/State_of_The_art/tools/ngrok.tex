@@ -1,0 +1,30 @@
+\subsection{Ngrok}
+\label{sec:ngrok}
+Ngrok was used is this product to expose the local Gitea server to the internet. This was done to allow remote access to the server.
+Ngrok is a multiplatform tunnelling, reverse proxy software that establishes secure tunnels from a public endpoint to a local running network service.
+Ngrok acts as a unified ingress platform combining all the components to deliver traffic from local service to the internet. 
+Ngrok consolidates together the reverse proxy, load balancer, \ac{API} gateway, firewall, delivery network, DDoS protection and more.\cite{ngrok}
+
+\subsubsection{How does Ngrok work?}
+Ngrok is a reverse proxy but there is a little more to it than just that. Ngrok 
+works on a global network called the \javaf{Ngrok edge}. At the edge, traffic is accepted from client from the internet 
+and then forwarded to the local service.
+Unlike traditional proxies Ngrok does not transmit traffic to an upstream application by forwarding IP address. Instead, 
+Ngrok is a small piece of software that you run along side a local application. This software will connect to 
+the Ngrok edge and will keep the connection open. When a client connects to the Ngrok edge, the edge will forward the
+traffic to the local application.
+There are four ways of running the client\cite{ngrok-works}.
+
+\begin{itemize}
+    \item As a service: Run as a small side process called the Ngrok agent as a
+    background \ac{OS} service.
+    \item As an interactive \ac{CLI}: Run as the Ngrok agent
+    interactively from the command line while developing and testing.
+    \item As an \ac{SDK}
+    embedded in your app: Included as a small Agent \ac{SDK} library directly into an
+    application software that returns a socket-like object. 
+    \item As a Kubernetes
+    Controller: Run the Ingress Controller in a Kubernetes environment.
+\end{itemize}
+
+In this project, the Ngrok agent was run as a service. This was done to ensure that the connection to the Ngrok edge was at all times.

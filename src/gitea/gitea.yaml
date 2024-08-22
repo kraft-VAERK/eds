@@ -1,0 +1,47 @@
+orgs:
+  EDS:
+    teams:
+      Maintainers:
+        members:
+        - harambe
+        - jacopo
+        - marco
+        - Alice
+        permission: write
+    repos:
+      Abberus:
+        private: false
+        code: repositories/Abberus
+        branch_protections:
+          main:
+            required_approvals: 2
+        collaborators:
+          harambe: write
+          jacopo: administrator
+          marco: read
+          Alice: write
+      Amirdrassil:
+        code: repositories/Amirdrassil
+        collaborators:
+          harambe: read
+          Alice: write
+        private: false
+      Firelands:
+        code: repositories/Firelands
+        collaborators:
+          Alice: write
+        private: false
+#      Ulduar:
+#        code: repositories/Ulduar
+#        collaborators:
+#          harambe: write
+#          Alice: read
+#        private: false
+#      Icecrown:
+#        code: repositories/Icecrown
+#        collaborators:
+#          harambe: write
+#          jacopo: write
+#          marco: write
+#          Alice: write
+#        private: true

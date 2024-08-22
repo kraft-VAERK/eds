@@ -1,0 +1,18 @@
+sudo openssl genrsa -out eds.key 2048
+sudo chmod 644 eds.key
+sudo openssl req -key eds.key -new -out eds.csr
+openssl x509 -signkey eds.key -in eds.csr -req -days 365 -out eds.crt
+openssl req -x509 -sha256 -days 1825 -newkey rsa:2048 -keyout edsCA.key -out edsCA.crt
+openssl x509 -req -CA edsCA.crt -CAkey edsCA.key -in eds.csr -out eds.crt -days 365 -CAcreateserial -extfile eds.ext
+openssl x509 -text -noout -in eds.crt
+
+text for key
+FIRST: C = DK, ST = Denmark, L = Odense C, O = University Of Southern Denmark, OU = Institute for Mathematics and Computer Science (IMADA), CN = devops.eds, emailAddress = mojak18@student.sdu.dk
+SECOND: C = DK, ST = Denmark, L = Odense C, O = EDS{R4ND0M_FL4G_D1D_Y0U_F1ND_M3}, OU =(IMADA), CN = eds CA, emailAddress = mojak18@student.sdu.dk
+
+openssl x509 -in eds.crt -out eds.pem -outform PEM
+openssl x509 -in edsCA.crt -out edsCA.pem -outform PEM
+
+cat edsCA.pem >> eds.pem
+
+EDS{R4ND0M_FL4G_D1D_Y0U_F1ND_M3}

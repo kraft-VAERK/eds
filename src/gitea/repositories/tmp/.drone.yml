@@ -1,0 +1,29 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+- name: backend
+  image: python:buster
+  commands:
+  - pip install --upgrade setuptools
+  - pip install --upgrade pip
+  - make deps
+- name: dockerPush
+  image: docker:latest
+  commands:
+  - docker login https://registry.eds -u $USERNAME -p $PASSWORD
+  - docker build -t registry.eds/abberus:1.0.0
+  - docker push registry.eds/abberus:1.0.0
+  environment:
+    PASSWORD:
+      from_secret: docker_password
+    USERNAME:
+      from_secret: docker_username
+    when:
+      branch:
+      - main
+      event:
+      - push
+      - pull_request
+
+

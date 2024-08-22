@@ -1,0 +1,110 @@
+\documentclass[12pt]{report}
+
+% Packages
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{acro}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage[T1]{fontenc}
+\usepackage{minted}
+\usepackage[language=english]{lipsum} % For dummy text
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{geometry}
+\setlength{\headheight}{14.499998pt}
+\setlength{\topmargin}{-2.49998pt}
+\setcounter{tocdepth}{1}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Large}
+
+\newcommand\todo[1]{{\vspace{4mm}\noindent\color{red}\textbf{TODO: }#1\vspace{2mm}}}
+\newcommand{\javaf}{\mintinline[breakanywhere]{java}}
+
+\lstdefinestyle{yaml}{
+     basicstyle=\color{blue}\footnotesize,
+     rulecolor=\color{black},
+     string=[s]{'}{'},
+     stringstyle=\color{blue},
+     comment=[l]{:},
+     commentstyle=\color{black},
+     morecomment=[l]{-}
+ }
+
+\hypersetup{
+  colorlinks    = true, %Colours links instead of ugly boxes
+  urlcolor      = blue, %Colour for external hyperlinks
+  linkcolor     = blue, %Colour of internal links
+  citecolor     = red %Colour of citations
+}
+
+\newcommand{\toclink}{\hyperlink{toc}{\Large\bfseries\thesection\quad}}
+
+% Format for the section headings
+
+% Is it possible for the command below to go the clicked section instead of just to the table of content?
+% That command still just send me to the to top of toc and not the clicked section
+
+\titleformat{\section}[block]
+{\normalfont\Large\bfseries}{\toclink}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Morten Lund Jakobsen}
+\cfoot{University of Southern Denmark}
+\rfoot{\thepage{}/\pageref{lastpage}}
+\lfoot{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% Acronyms
+\input{abbreviations.tex}
+
+\begin{document}
+
+\input{titlepage.tex}
+
+% \chapter*{Prologue}
+
+\newpage
+\hypertarget{toc}{}
+\tableofcontents
+\newpage
+\listoffigures
+
+\input{chapters/abstract.tex}
+
+\input{chapters/introduction.tex}
+
+\input{chapters/state_of_the_art.tex}
+
+\input{chapters/technical.tex}
+
+\input{chapters/haaukins_and_ucloud.tex}
+
+\input{chapters/discussion.tex}
+
+\input{chapters/conclusion.tex}
+
+\label{lastpage} % Allows using the page number of this page as the last in 
+% the footer
+\newpage
+\pagenumbering{gobble} % Stop numbering pages
+\bibliographystyle{plain}
+\bibliography{refs}
+\rfoot{} % Remove page number from the footer
+
+\input{chapters/appendix.tex}
+\printacronyms
+
+\end{document}

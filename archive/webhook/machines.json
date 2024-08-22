@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Test-Machine",
+    "ip": "130.225.38.243",
+    "ssh_key": "~/.ssh/Imada-git-server-key",
+    "port": "8080"
+  }
+]

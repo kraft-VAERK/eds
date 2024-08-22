@@ -1,0 +1,19 @@
+FROM drone/drone-runner-docker:1 AS base
+
+
+# VOLUME [ "/var/run/docker.sock:/var/run/docker.sock" ]
+ENV DRONE_RUNNER_ENVIRON=PASSWORD:HKN{IM_A_PEON_I_DO_WHAT_AM_TOLD}
+
+EXPOSE 3000:3000
+
+COPY proxy/ssl/edsCA.pem /tmp/edsCA.pem
+RUN cat /tmp/edsCA.pem >> /etc/ssl/certs/ca-certificates.crt
+
+RUN apk add --update --no-cache python3 py3-pip && \
+    ln -sf python3 /usr/bin/python && \
+    python3 --version
+
+COPY registry/config/config.json /root/.docker/config.json
+
+
+RUN echo '{"registry-mirrors": ["https://registry.devops.hkn"], "insecure-registries" : ["registry.devops.hkn:443"]} >> /etc/docker/daemon.json'

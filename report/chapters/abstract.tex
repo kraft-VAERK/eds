@@ -1,0 +1,67 @@
+\begin{abstract}
+    I denne afhandling er der blevet undersøgt og udviklet en pipeline som kan bruges til 
+    at generere, træne og vise \ac{CTF}'s i et \ac{devops} miljø. Pipelinen 
+    er opbygget af 5 forskelle programmer og kan køres lokalt, 
+    på computere der har operativ system kali eller ubuntu linux.
+    
+    Det overordnede mål for denne afhandling var først og fremmest at undersøge, mulighed for at bruge cloud computing 
+    til pipeline-infrastrukturen. Derudover at se om et automatiseret virtualiseringsprogram kan bruges til at 
+    beværte pipelinen, hvilket på sigt vil gøre det muligt for både brugere og udviklere at håndtere pipelinen og dens ressourcer. 
+    Derudover. har det været i fokus at gøre en pipeline tilgængelig for brugeren, sammen med 
+    undervisningsmateriale i form af CTF'er, som kan hjælpe brugeren med at forstå pipelinen og samtidig lære om sikkerhed i pipelines.
+    
+    I denne afhandling er produktet, der er blevet fremstillet, en pipeline.
+    Pipelinen kan køres lokalt og opstartes ved bruge at et skript. 
+    Fuldføres skriptet uden fejl, vil brugeren blive præsenteret med tre links.
+    Disse tre links er til Gitea, Drone og Registry. 
+    Disse er de tre programmer som brugeren kan interagere med for at bruge pipelinen,
+    og i disse tre programmer er der 4 CTF'er som brugeren kan løse.
+    \\
+    Udover fremstilling af pipelinen, blevet det også en mulighed at undersøge om "cloud computing"
+    kunne anvendes.
+    Dette blev undersøgt ved at bruge en platform kaldet Ucloud.Ucloud's maskiner 
+    er tilgængelige ved brugen at en SSH forbindelse. På grund af denne begrænsning på 
+    Ucloud maskiner, var det ikke muligt at bruge Ucloud som en ressource til at køre infrastrukturen for pipelinen.
+    \javaf{HAAUKINS} skulle bruges til at hoste pipelinen og gøre det let for brugerne 
+    at intergerer med det udviklede materiale.
+    \javaf{HAAUKINS} programmet blev undersøgt og 
+    det viste sig, at med den minimale dokumentation og manglede support fra udviklerne, 
+    at det ikke var muligt at få haaukins til at køre lokal, og derved ikke have nogen som 
+    kontrol over programmet som afhandlingen havde brug for.\\
+    I sidste ende kan det konkluderes, at den udviklede pipeline kan køres og startes totalt lokalt, og at brugeren
+    kan anvende pipelinen til at løse de tilgængelige \ac{CTF}'er.
+\end{abstract}
+\begin{abstract}
+    This thesis set to investigated and develope a pipeline that can be used to generate, train, and display Capture The Flags (CTFs) in a DevOps environment. 
+    The pipeline is composed of 5 different programs and can be run locally on computers with Kali or Ubuntu Linux 
+    operating systems.
+
+    The aim goal of this thesis was to investigate if it would be possible 
+    to use cloud computing for the pipeline's infrastructure. Secondly, to investigate whether it is possible to use an automated 
+    virtualization program to host the pipeline, which effectively allows both the developer to manage the pipeline and its resources,
+    and user to interact with it easily. 
+    Last but not least, to investigate and develop a pipeline that can be locally accessible to the user, along with developing educational material 
+    in the form of CTFs that could be used to enable the user to understand the pipeline while also learning about security in pipelines.
+
+    The result of this thesis is a pipeline where the user can run a simple script. 
+    This script will automatically check and verify if all necessary programs are installed. 
+    If the script completes without errors, the user will be presented with three links: Gitea, Drone, and Registry. 
+
+    Besides generating a pipeline, the possiblity of using cloud computing was investigated.
+    This was explored by using a program called Ucloud.
+    Ucloud's machines are only accessible through a SSH connection, 
+    it was not possible to use Ucloud as computing power to run the 
+    infrastructure for the pipeline, due to this limitation.
+
+    The Haaukins program was intended to host the pipeline and make it easy for users to interact with the pipeline. 
+    The Haaukins program was investigated and it turned out that due to minimal documentation and lack of support from the developers,
+    it was not possible to run Haaukins locally, and therefore, was the aim of having the program run not achievable.
+
+    Ultimately, it can be concluded that the pipeline can be run locally and that the user can use the pipeline to solve
+    the available \ac{CTF}s that are present on the pipeline. 
+    It can also be concluded that it was not possible to use Ucloud or Haaukins to host the pipeline.
+    
+\end{abstract}
+
+
+\newpage

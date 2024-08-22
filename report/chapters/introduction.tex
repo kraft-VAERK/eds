@@ -1,0 +1,59 @@
+\chapter{Introduction}
+For the last twenty years of software development, software developers have embraced the terminology of \ac{devops}.
+\ac{devops} is a set of practices that combines software development (Dev) and IT operations (Ops). 
+It aims to shorten the systems development life cycle and provide \ac{CI} and \ac{CD} with high software quality. 
+\ac{devops} is complementary with Agile software development; several DevOps aspects came from Agile methodology. 
+
+\ac{devops} started back in the early 21st century, and was first adapted by Amazon led by a man named Verner Vogels.
+Vogels is considered the father of \ac{devops} by many software developers and IT professionals. From his perspective, 
+he saw the need for a new way of working, where the development and operations teams would work together to
+deliver software faster and more reliably. Instead of still using old ways of creating software 
+like the waterfall model, where once a stage has been surpassed it's either impossible or very expensive to go back and change something.
+\cite{devops}
+
+Today, the new approach to software development, testing, and deployment has evolved into a structured process known as a pipeline. 
+A pipeline consists of a series of automated steps that are executed whenever a developer merges code into a production branch or any 
+branch connected to the pipeline, such as a test branch. While there are various ways to implement pipelines, the most common method involves 
+using \ac{CI/CD} tools.
+
+Nearly all software development companies today utilize some form of pipeline. These pipelines often contain sensitive information, 
+including credentials, tokens, and other confidential data needed to deploy software to servers, cloud providers, or container registries. 
+Due to the necessity of having access to these credentials and sensitive information, pipelines have become attractive targets for attackers. 
+If an attacker gains access to a pipeline, they can potentially compromise the company's entire infrastructure.
+Given this security risk, it is crucial to educate developers about potential security gaps in their pipelines and the bad practices they should avoid. 
+
+In this thesis the focus is \ac{devops}. \ac{devops} introduces a new way of working using 
+\ac{CI/CD}. Even though practices of \ac{CI/CD} are important, they are not the primary focus in this thesis. 
+\ac{CI/CD} is a well-established practice, and numerous tools and platforms are available to facilitate its implementation.
+
+The primary focus of this thesis will be, the creation of a pipeline and \ac{CTF} challenges that 
+will help inform and educate developers about the security risks associated with pipelines. 
+Currently, there a small amount of training material or \ac{CTF}'s to educate developers on securing their pipelines.
+As of this reason, this project proposes the creation of a pipeline using open-source tools, 
+designed with a set of challenges aimed towards improving pipeline security knowledge. 
+Additionally, it is necessary to have a computational platform where this pipeline can be deployed, such as cloud computing.
+
+HAAUKINS, an automated virtualization platform used by \ac{DDC} for hosting \ac{CTF} events, will be utilized to deploy and host these challenges. 
+This platform will provide a practical environment for developers to learn and practice secure pipeline practices. 
+Lastly, all this infrastructure will need some kind of computational power or cloud provider to run on. As 
+\ac{SDU} is part of \ac{Ucloud}, a computational cloud provider, this thesis will explore the 
+possibility of deploying the pipeline on \ac{Ucloud}.
+
+At the end of the thesis, a pipeline locally deployable with multiple \ac{CTF}s on the pipeline was achieved.
+Also the thesis concludes that the use of \ac{HAAUKINS} and \ac{Ucloud} was not possible.
+Through GameSS\cite{gamess} it was possible to have
+the pipeline tested by a group called Brunnerne. Brunnerne is a local group of people from Odense and \ac{SDU}, that are
+enthusiastic about \ac{CTF}. This testing provided valuable feedback on the pipeline as the group were appreciated 
+by the existing new form of \ac{CTF} challenges but expressed a desire to see more challenges with a more technical focus.
+
+The structure of the thesis is as follows:
+\begin{itemize}
+    \item Chapter 1 \javaf{State of the art}, An explanation of tools and other pipeline technologies that are out there.
+    \item Chapter 2 \javaf{Techninal Implementation} - The thesis has two implementations. One pipeline that was created with a remote server, and 
+    one that is totally localized.
+    \item Chapter 3 \javaf{HAAUKINS and Ucloud} - In this chapter the two platforms are introduced and explained.
+    \item Chapter 4 \javaf{Discussion} - In the discussion there will be a focus on the challenge faced during the projects.
+    Also there will be a reflection and a future work discussion.
+    \item Chapter 5 \javaf{Conclusion} - An overall conclusion that reflects on the goals of the project.
+\end{itemize}
+The source code for this project can be found online at \url{https://git.imada.sdu.dk/mojak18/Empowering_DevOps_Security}

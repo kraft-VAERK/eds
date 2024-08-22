@@ -1,0 +1,39 @@
+FROM gitea/gitea:1.21.6
+RUN apk add openssl
+
+RUN apk add --update --no-cache python3 py3-pip && \
+    ln -sf python3 /usr/bin/python && \
+    python3 --version
+RUN python3 -m pip install --ignore-installed distlib --no-cache-dir pipenv==2022.8.30
+COPY gitea/config/requirements.txt /tmp/requirements.txt
+RUN python3 -m pip install -r /tmp/requirements.txt
+
+COPY proxy/ssl/eds.pem /tmp/eds.pem
+RUN cat /tmp/eds.pem >> /etc/ssl/certs/ca-certificates.crt
+
+ADD gitea/config/gitea.tar.gz /data
+COPY gitea/config/private.pem /data/gitea/jwt/private.pem
+
+COPY gitea/config/app.ini /data/gitea/conf/app.ini
+
+COPY drone/config/users.csv /config/users.csv
+
+COPY gitea/start.sh /tmp/start.sh
+
+RUN chmod +x /tmp/start.sh
+
+COPY gitea/giteacasc giteacasc
+COPY gitea/gitea.yaml gitea.yaml
+
+COPY gitea/repositories /repositories
+RUN mv repositories/Abberus/not.git repositories/Abberus/.git
+RUN mv repositories/Amirdrassil/not.git repositories/Amirdrassil/.git
+# RUN mv repositories/Ulduar/not.git repositories/Ulduar/.git
+# RUN mv repositories/Icecrown/not.git repositories/Icecrown/.git
+RUN mv repositories/Firelands/not.git repositories/Firelands/.git
+
+COPY gitea/config /config/
+RUN touch /data/NEW_INSTALL
+
+
+ENTRYPOINT ["/tmp/start.sh"]

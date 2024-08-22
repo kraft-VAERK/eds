@@ -1,0 +1,3 @@
+0000000000000000000000000000000000000000 cf916105a015dfbf6c8a2781889138480cf53165 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1715082880 -0400	clone: from https://git.devops.eds/EDS/Icecrown.git
+cf916105a015dfbf6c8a2781889138480cf53165 189f0fe366028b73e6fa7089f8f1a3732c583095 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1715116080 -0400	commit: .drone.yml update
+189f0fe366028b73e6fa7089f8f1a3732c583095 b74c0f2b48e1785bc494ddb7ab180408e0fc27b1 Morten LAPTOP Jakobsen <mojak18@student.sdu.dk> 1715165756 +0200	commit: docker is awesome

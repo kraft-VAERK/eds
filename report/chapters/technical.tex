@@ -1,0 +1,29 @@
+\chapter{Technical Implementation}
+\label{sec:technical_implementation}
+This section covers the technical part of the pipeline. There will not be much discussion about 
+whether one of the pipeline is better than the other or if the implementation is good or not.
+Rather I will reflect and discuss that in 
+the discussion section \ref{sec:discussion-pipeline}.
+Section \ref{sec:pipeline_remote} is about the remote deployment.
+Section \ref{sec:pipeline-local} is about the final pipeline product hence 
+the local pipeline and it's local deployment.\\\\
+The objective of this pipeline is to provide developers with an environment where they can develop and experiment, 
+using a setup akin to the production pipeline. They have the flexibility to integrate their own repositories, 
+configurations, and other resources into the pipeline to observe its behavior. This enables them to assess and 
+refine their development practices based on the pipeline's performance.
+
+Localized pipelines, although less common nowadays, offer a unique advantage. Unlike pipelines hosted on 
+cloud-based virtual environments managed by service providers, a localized pipeline resides directly on the developer's machine. 
+This grants developers full access to the pipeline's infrastructure, codebase, and configurations. Such accessibility is invaluable 
+considering the prevalent use of pipelines 
+in modern development workflows, emphasizing the importance of adhering to secure and efficient practices.
+For this project the pipeline is constructed with the components that are described in section \ref{sec:tools}.
+
+
+\input{chapters/Implementation/pipeline-remote.tex}
+\newpage
+
+\input{chapters/Implementation/pipeline-local.tex}
+\newpage
+
+\input{chapters/Implementation/ctfs.tex}q

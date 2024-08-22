@@ -1,0 +1,198 @@
+\documentclass[a4, 12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{University of Southern Denmark}
+\cfoot{\thepage}
+\rfoot{Morten Jakobsen}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+   \includegraphics[scale=0.7]{img/SDU_logo.png} 
+\end{center}
+   
+\thispagestyle{fancy}
+
+\center
+
+\textsc{\large Masters Thesis Proposal}
+
+\vspace{0.5in}
+
+\noindent\makebox[\linewidth]{\rule{\linewidth}{1.2pt}}
+\textsc{\textbf{Empowering DevOps Security: Capture the Flag Challenge in Development and Operations}}
+\noindent\makebox[\linewidth]{\rule{\linewidth}{1.2pt}}
+
+\vspace{0.5in}
+
+\begin{minipage}{0.48\textwidth}
+    \begin{flushleft}
+        \textit{Student:} \\
+        Morten Lund Jakobsen \\
+        University of Southern Denmark \\
+        Mojak18@student.sdu.dk
+    \end{flushleft}
+\end{minipage}
+\begin{minipage}{0.48\textwidth}
+    \begin{flushright}
+    \textit{Advisor:} \\
+    Jacopo Mauro \\
+    Macro Peressotti \\
+    \end{flushright}
+\end{minipage}
+
+\vspace{2in}
+
+\textbf{\large Department of Computer Science} \\
+
+\today
+\thispagestyle{empty}
+
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+% \section{Title}
+% For the title for thesis is: \textbf{Challenges Combining Development, Security, and Operational Practices in Capture the Flag Scenarios}.
+% \newpage
+\section{Motivation \& Goal}
+\setcounter{page}{1}
+Over the past two decades, software development has 
+witnessed the adoption of various practices aimed at 
+ensuring efficient product delivery. Many of these practices 
+have traditionally prioritized development speed and adherence 
+to tight schedules rather than security considerations. 
+Additionally, the use of monolithic architecture in software 
+development has posed challenges in terms of maintenance and updates. 
+As a response to these challenges, a more agile approach emerged, 
+breaking down software into smaller components developed by specialized teams. 
+This shift paved the way for the rise of DevOps and its associated culture, 
+which blends development and operations expertise. The DevOps culture has seen 
+significant growth over the last decade and has proven to be highly successful.
+
+The expansion of DevOps has generated a heightened demand for 
+improved solutions to address the need for accessibility to 
+development environments and assets. This demand has led to 
+the adoption of various technologies and practices, 
+including virtualization, containerization, cloud services, single sign-on, version control software, vaulting, and more.
+
+This thesis aims to delve into the deployment, development, and maintenance of DevOps
+challenges specifically focused on the aspect of the pipeline, version control, vaulting, and so on. 
+Also, the thesis aims to use local resources and known technologies such as haaukins, and cloud computing.
+The thesis will also try to explore the possibility of Automated
+deployment for end-users to deploy their own CTF environment. Although this will not be the clear focus of the thesis,
+since before controlling and deploying an automated platform using haaukins and such, everything else will have to be completed.
+The primary goal of this research is to gain a deeper understanding of the security challenges
+associated with the practice of
+DevOps and how they intersect with the broader landscape of software development and operations.
+\section{Plan of activities}
+The thesis plan involves the development of 3 to 5 Capture the Flag 
+challenges that will be deployed for users to solve, with the primary 
+the objective of imparting knowledge about well-documented DevOps vulnerabilities.
+
+To achieve this, the following key strategies will be employed:
+\begin{itemize}
+    \item \textbf{Exploration of Haaukins:}\\ The research will commence by examining Haaukins, 
+    a versatile program designed for deploying virtual environments that facilitate user 
+    engagement in solving challenges. Haaukins also simplifies the process for developers 
+    to create new Capture the Flag scenarios that can be readily deployed on the platform.\cite{haaukins_docs}\cite{haaukins_github}\cite{aau-network-security}
+    \item \textbf{Leveraging Cloud Computing:}\\ The utilization of cloud computing infrastructure 
+    is integral to the thesis. Cloud computing technology will enhance the accessibility 
+    and interaction capabilities for both developers and users participating in the challenges. 
+    It will provide a scalable and efficient platform for hosting and accessing the challenges.\cite{ucloud_cloud-computing}
+    \item \textbf{Educational Focus on DevOps Vulnerabilities:}\\ The primary aim of the thesis is to 
+    educate users about both known and lesser-known vulnerabilities within the DevOps domain. 
+    The challenges developed will serve as educational tools, providing insights into various vulnerabilities, 
+    their exploitation, and mitigation strategies. Users will have the opportunity to gain practical experience 
+    in identifying and addressing DevOps security issues. This goal will be accomplished by reaching out to the students and interested parties that want to interact with the challenges that will be developed.
+    \item \textbf{Research from state of the art:}\\ From the research on what our people have incorporated into their CTF challenges,
+    i'll gain knowledge about what is possible and what is not. This will help in the process of developing the challenges, since it will give a 
+    clear understanding of both how the challenge should work and look.\cite{ctftime_event}\cite{cicdgoat_github}\cite{tryhackme_attackingdefendingvpcs}\cite{tryhackme_iampermissions}
+    \item \textbf{Optinal: Automation for Challenge Deployment:}\\ The thesis will incorporate automation 
+    into the challenge development process to streamline the creation of new challenge instances. 
+    Automation will significantly benefit users who wish to deploy new challenges, as it will 
+    allow them to interact with an automated deployment system. This system will efficiently 
+    deploy new instances of the desired challenge, reducing the complexity of the setup process.\cite{haaukins-webclient}
+
+\end{itemize}
+
+In summary, this thesis plan outlines the development and deployment of Capture the Flag 
+challenges using Haaukins and cloud computing infrastructure. The incorporation of automation 
+will simplify challenge deployment, and the ultimate goal is to educate users on a wide range of 
+DevOps vulnerabilities, fostering a deeper understanding of security within the DevOps context.
+
+\section{Tentative time plan (e.g., an item every 2 weeks/1 month)}
+\begin{itemize}
+    \item September: \textbf{Haaukins and Cloud Infrastructure Research}\\
+        Exploring Haaukins and local deployment options, such as Ucloud or other cloud infrastructures.
+    \item October: \textbf{DevOps Vulnerability Research and Initial Implementation with Haaukins}\\
+        In October I'll start on the vulnerability research and figure out which challenges I'd want to implement.
+        Having a broad knowledge of the vulnerabilities in DevOps will help me in the process of creating the challenges.\cite{tryhackme}\cite{cicdgoat_github}\cite{ctftime_event}
+    \item November: \textbf{Starting the development of the challenges, possibly exploiting the expertise of}:
+        \begin{itemize}
+            \item Expert Meeting with Eficode (Sophus)\cite{Sofus_Albertsen} - DevOps Insights
+            \item Student Developers Meetings (Aalborg and Copenhagen) - Haaukins Collaboration \cite{haaukins_docs}\cite{haaukins_github}
+            \item Industry Interviews (e.g., TryHackMe, HackTheBox) - DevOps Challenges Discussion
+            \item Research out DevOps practices.
+        \end{itemize}
+    \item December: \textbf{Challenges Development and Submission of Initial Draft by December 14th}
+
+    \item January: \textbf{Challenges Testing and Debugging}
+    \item February: \textbf{Challenges Documentation and Thesis Report Initiation}
+    \item March: \textbf{Thesis Report and Challenges Documentation Writing}
+    \item April: \textbf{Thesis Report Writing} 
+    \item May: \textbf{Thesis Report Refinement}
+    \item June 1: \textbf{Thesis Submission Deadline}
+\end{itemize}
+\section{Risk evaluation}
+Obvious there is some risk regarding the project, such as:
+\begin{itemize}
+    \item \textbf{DevOps and CTF Challenges}\\
+        This presents a risk as I have no prior experience with DevOps or creating CTF challenges. There's uncertainty regarding my ability to create the desired challenges within the given timeframe.
+        
+    \item \textbf{Haaukins}\\
+        There is a potential risk that Haaukins may not be the optimal tool for the task, and I might need to explore alternative tools better suited to my project's requirements.
+
+    \item \textbf{Cloud Infrastructure}\\
+        Using cloud infrastructure for the project means I won't have direct control over the hardware running the challenges. This lack of control could pose a risk as it may limit my ability to execute certain tasks without the necessary permissions.
+
+    \item \textbf{Learning Outcomes}\\
+        There is a concern that the challenges I aim to create may not achieve the desired learning objectives for users. This aspect will be continually evaluated throughout the challenge creation process.
+\end{itemize}
+
+However, the risk of the thesis will be mitigated by exploiting the knowledge of my supervisor and his network. For a couple of 
+references on how that'll be done, 
+\begin{itemize}
+    \item Meeting and close contact with the developers of the Haaukins program. (Already planned meetings and collaborations)
+    \item Industry expert. As said, being able to exploit people working with DevOps daily will be critical.
+    \item If the cloud infrastructure that the thesis desires to use, it will be possible to use bare metal such as physical servers and computers.
+\end{itemize}
+
+\section{Thesis desired outcome}
+
+Upon project completion, the project's deliverables will encompass:
+\begin{itemize}
+    \item A comprehensive report composed in English
+    adhering to established academic writing norms. 
+    This report will encompass an overview of the current 
+    landscape of DevOps development challenges, intricate insights into the creation of these challenges, and their subsequent evaluation.
+    \item The source code for a selection of 3 to 5 DevOps challenges.
+\end{itemize}
+
+
+\bibliography{sources}
+\bibliographystyle{ieeetr}
+\end{document}

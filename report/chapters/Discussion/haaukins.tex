@@ -1,0 +1,15 @@
+As discussed in Section \ref{sec:haaukins}, the absence of documentation and general feedback from the \ac{HAAUKINS} team
+made it difficult to fully understand \ac{HAAUKINS} and its capabilities.
+The intended use of \ac{HAAUKINS} in this project was to manage the infrastructure for the pipeline backend machines and handle flags.
+
+Discussing the errors and issues that \ac{HAAUKINS} encounters during use is challenging because a 
+thorough examination of \ac{HAAUKINS}, its features and structure was not been possible.
+Consequently, conclusions about \ac{HAAUKINS} will be based on the information obtained 
+from its minimal documentation, the GameSS project, and \ac{DDC}.\\\\
+The future use of the \ac{HAAUKINS} program within the pipeline involves deploying 
+it on an existing \ac{HAAUKINS} instance through the GameSS project. 
+From there, CTFs will be integrated into the new pipeline.
+
+Although the pipeline is not entirely new, it requires a fresh configuration for the \ac{HAAUKINS} platform to correctly spawn the backend containers, 
+effectively making it a new pipeline. Additionally, because the \ac{HAAUKINS} platform uses specific DNS records, such as \javaf{hkn}, 
+the certificate that enables \ac{HTTPS} communication between containers must be recreated to match the specific \javaf{.hkn} \ac{CN}.

@@ -1,0 +1,83 @@
+\subsection{Drone CI/CD}
+\label{sec:drone}
+Drone\cite{droneio} is a \ac{CI/CD} tool that is used to automate the process of building, testing and deploying software.
+Drone is a container-native \ac{CI/CD} platform built on Docker, written in Go. It uses a simple \ac{YAML} configuration file
+to define the pipeline. 
+Drone is open-source. Everything about the DroneAPI is open-source and 
+available on their website.
+As Gitea has CI/CD support, what that means is that 
+it is possible to have Drone as an external pipeline software work together with Gitea.
+\begin{figure}
+    \begin{minted}[
+        gobble=4,
+        frame=single,
+        linenos
+      ]{yaml}
+        kind: pipeline
+        type: docker
+        name: default
+            
+        steps:
+        - name: backend
+          image: golang
+          commands:
+          - go build
+          - go test
+            
+        - name: frontend
+          image: node
+          commands:
+          - npm install
+          - npm run test
+      \end{minted}
+      \caption{Drone pipeline example}
+      \label{fig:drone_pipeline}
+\end{figure}
+An example of a simple 
+pipeline that runs a \javaf{go build} and \javaf{go test}. Then after it has run the first step, 
+it will run the second step which is a \javaf{npm install} and \javaf{npm run test}.\\
+The drone pipeline is defined from the \javaf{.drone.yml} file. 
+This file is located in the root of the repository.
+The pipeline is defined in the file, and the pipeline is then executed by the drone runners.
+The pipeline uses keywords to determine it actions and then executes them based on 
+the input in the pipeline and the data in the repository.
+In the DroneCI documentation\cite{droneio}, there is a list of 
+keywords that are available for use in the pipeline. The main keywords applied in the project are\cite{droneio}:
+
+\begin{itemize}
+  \item \textbf{kind} 
+  The kind setting is to define to the runner that it is a pipeline. The setting is default and the only setting for this 
+  keyword.
+  \item \textbf{type}
+  The type declare for the backend (drone server), what the pipeline infrastructure is. Drone provides several types of types for pipelines such as 
+  k8s\cite{kubenetes}, Docker, exec, ssh and more. The most common is Docker.
+  \item \textbf{name}
+  The name of the pipeline used to identify the pipeline in the drone server.
+  \item \textbf{steps}
+  Steps is the main part of the pipeline. In this part commands are defined. 
+  The steps are executed in order from top to bottom.
+  During a steps sequence you can have multiples step, inside a step you have new keywords, the most commonly used are:
+    \begin{itemize}
+      \item \textbf{name}
+      Name of the step you're executing.
+      \item \textbf{image}
+      This is specific for the Docker pipeline. This is the image that the step will run in. 
+      The drone server uses Docker hub to collect the images if nothing else is specified.
+      \item \textbf{commands}
+      The commands that the step will run. This is the same as running the commands in a terminal.
+    \end{itemize}
+  \item{\textbf{environment}}
+  The environment keyword is used to define environment variables that are available to all steps in the pipeline.
+  It is attached to a step in the pipeline and it is used to make secrets and other variables available to the steps.
+\end{itemize}
+
+These are examples of the keywords that are used by the drone pipeline file, to execute the pipeline.
+In this project these are the main ones that are used.
+\subsection{Drone runners}
+To enable the Drone pipeline's functionality, runners are necessary to execute commands triggered by the pipeline. 
+The Drone server acts as the intermediary between Gitea and these runners. These runners are configured as Docker containers. 
+Upon startup, the drone runners attempt to connect to the server. If the ping is successful, the runner gains the capability to execute the pipeline.
+
+Configuring drone runners is straightforward since most of the setup resides on the Drone server and within the YAML configuration file. 
+The runner itself is merely a container initialized with the drone-runner image. This image is provided by the Drone pipeline configuration file, as depicted in figure \ref{fig:drone_pipeline}. 
+Specific configurations for a drone-runner will be detailed in section \ref{sec:pipeline-local}.

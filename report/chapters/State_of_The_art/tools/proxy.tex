@@ -1,0 +1,40 @@
+\subsection{Nginx proxy}
+\label{sec:nginx}
+Nginx is a reverse proxy, serving as the intermediary between the client and the internal network where the application runs. 
+It manages the DNS records requested and directs the traffic to the corresponding IP address. 
+Consequently, the client is unaware of the application's IP address, knowing only the gateway. This gateway is a docker network gateway.
+The client sends a request to the application via HTTPS. 
+The proxy forwards this request to the application, which then sends the response back to the proxy. 
+This setup adds an extra layer of abstraction, helping to protect the internal network from the outside world.
+It also gives the possible to add more infrastructure to the application, such as load balancing, caching, certificates handling and more.\\
+
+\paragraph{Passing a request to a proxied server}
+Whenever nginx receives a request, it tries to find the server that the request should be forwarded to.
+The server is specified in the \javaf{proxy_pass} directive. The \javaf{proxy_pass} directive is used to specify the server that the request should be forwarded to.\\
+Simply what the \javaf{proxy_pass} specification does, is the declaration of the server that the request should be forwarded to.
+That can either be a \ac{DNS} record or an \ac{IP} address.\cite{nginx-proxy-3}
+
+\paragraph{Configuring buffers}By default NGINX buffers responses from upstream servers.
+A response is stored in the internal buffers and is not sent to
+the client until the whole response is received. Buffering helps to optimize performance with slow clients, 
+which can waste upstream servers time if the response is passed from NGINX to the client synchronously. 
+However, when buffering is enabled, NGINX allows the upstream servers to 
+process responses quickly, while NGINX stores the responses for as much time as the clients need to download them.\cite{nginx-proxy-3}
+The specification of these buffers are noted in the configuration as seen in figure \ref{fig:buffer-config}.
+\begin{figure}
+    \begin{center}
+        \javaf{proxy_buffers $size$ $number$;} \\
+        \javaf{proxy_buffer_size $size$;}.
+    \end{center}
+    \caption{Configuring buffers}
+    \label{fig:buffer-config}
+\end{figure}
+The specific configuration for the this project will be covered in section \ref{sec:pipeline-local-nginx}.
+
+\subsubsection{Docker gateway}
+\label{sec:gateway}
+For the NGINX reverse proxy to function, it needs a gateway to attach itself to. Here the Docker network is used as the gateway.
+The Docker network is a virtual network that is created by Docker. The network is used to connect containers together.
+The network is created by the Docker daemon when the first container is created. The network is created with the name \javaf{bridge}.
+The bridge network is the default network that is created by Docker.
+The bridge network is a \ac{NAT} network that is used to connect the containers to the host.

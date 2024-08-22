@@ -1,0 +1,12 @@
+FROM ubuntu:22.04
+
+RUN curl-L https://github.com/drone-runners/drone-runner-exec/releases/latest/download/drone_runner_exec_linux_amd64.tar.gz | tar zx
+
+RUN sudo install -t /usr/local/bin drone-runner-exec
+
+COPY drone-runners/config /etc/drone-runner-exec/config
+COPY proxy/ssl/drone.crt /etc/ssl/certs/drone.crt
+
+RUN mkdir /var/log/drone-runner-exec
+
+ENTRYPOINT [ "./tmp/init.sh" ]

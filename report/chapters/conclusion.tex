@@ -1,0 +1,41 @@
+\chapter{Conclusion}
+\label{sec:conclusion}
+
+This thesis aimed to create a pipeline with 3-5 CTF challenges using \ac{HAAUKINS} and \ac{Ucloud}. 
+The pipeline was built using Gitea, Drone, Docker, Nginx, Registry, and Docker Compose. 
+It can be automatically deployed by any user on either Ubuntu or Kali Linux.
+
+When incorporating \ac{HAAUKINS} and \ac{Ucloud} for the infrastructure, it became evident 
+that using \ac{Ucloud} for the pipeline's computational power was not feasible. \ac{Ucloud}'s numerous restrictions, 
+firewalls, and other security measures hindered control over the necessary resources, making its use impractical.
+
+Regarding \ac{HAAUKINS}, it posed several challenges. My understanding of \ac{HAAUKINS} largely stemmed from the \ac{DDC} project. 
+Initially, deploying the pipeline on \ac{HAAUKINS} was unachievable. Even after creating a localized solution, 
+challenges remained due to network issues associated with \ac{HAAUKINS}, as discussed throughout the thesis. 
+Additionally, after interacting with developers of HAAUKINS, it became clear that spawning HAAUKINS on \ac{Ucloud} was not possible. 
+HAAUKINS requires access to the entire operating system to operate correctly, as discussed in section \ref{sec:discussion-haaukins}.
+
+When comparing the two pipelines, it can be concluded that for CTF purposes, general use, 
+and further development, a localized, self-deployed pipeline with Docker Compose is the best solution. 
+The remote solution has some merit since it addressed the issue with OAuth2, but the problem with OAuth2 
+was ultimately solved using a proxy and a \ac{TLD} in the localized pipeline.
+However, the remote solution had too many flaws, 
+including issues with SSH, SSH tunnels, webhooks, and the use of \ac{Ucloud} machines, which made it impossible to create any kind 
+of smart communication between a local instance of Drone and a remote instance of Gitea.
+
+With the use of a reverse proxy, it was possible for the \ac{CTF}s to be deployed locally. This meant that 
+the \ac{CTF}s incorporated into the pipeline was able to be solved locally by anyone who deployed it.
+The \ac{CTF}s in the pipeline are good, introducing Drone and providing general knowledge on how to interact with the pipeline. 
+
+As the thesis was close to the end, the pipeline was tested by Brunnerne. That test proved 
+that the pipeline was able to be deployed but other individuals than the author. 
+From the feedback, it was clear that the pipeline was working as intended. 
+The feedback mentioned that the challenges were nice, but they would like to see more technical challenges.
+
+To summarize the thesis proposal, a pipeline incorporating CTF challenges was created. 
+This pipeline is automated and can be deployed on the operating systems Ubuntu and Kali Linux. 
+Regarding the use of \ac{HAAUKINS} and \ac{Ucloud}, we are currently planning to attempt deploying the pipeline 
+on HAAUKINS after completing the thesis. However, due to numerous restrictions on machines in \ac{Ucloud}, 
+utilizing \ac{Ucloud}'s computational power will not be feasible unless there are changes within its infrastructure. 
+There is also potential for further development of CTF material for the pipeline based on 
+feedback from Brunnerne, indicating room for improvement and additional content creation.

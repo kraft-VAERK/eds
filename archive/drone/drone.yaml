@@ -1,0 +1,40 @@
+orgs:
+  black-crawford-and-smith:
+    repos:
+      Abberus:
+        branch_protections:
+          main:
+            required_approvals: 2
+        code: repositories/Abberus
+        collaborators:
+          harambe: write
+          jacopo: administrator
+          marco: read
+        private: false
+      Amirdrassil:
+        code: repositories/Amirdrassil
+        collaborators:
+          harambe: read
+        private: false
+      Icecrown:
+        code: repositories/Icecrown
+        collaborators:
+          harambe: write
+          jacopo: write
+          marco: write
+        private: true
+      Ulduar:
+        branch_protections:
+          main:
+            required_approvals: 1
+        code: repositories/Ulduar
+        collaborators:
+          harambe: write
+        private: false
+    teams:
+      Maintainers:
+        members:
+        - harambe
+        - jacopo
+        - marco
+        permission: write

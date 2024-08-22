@@ -1,0 +1,27 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+- name: backend
+  image: registry.devops.hkn/python:buster
+  commands:
+  - pip install --upgrade setuptools
+  - pip install --upgrade pip
+  - make deps
+- name: dockerPush
+  image: registry.devops.hkn/docker:1
+  commands:
+  - docker login https://registry.devops.hkn -u $USERNAME -p $PASSWORD
+  environment:
+    PASSWORD:
+      from_secret: docker_password
+    USERNAME:
+      from_secret: docker_username
+    when:
+      branch:
+      - main
+      event:
+      - push
+      - pull_request
+
+

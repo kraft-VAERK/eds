@@ -1,0 +1,111 @@
+\subsection{Certificate}
+\label{sec:certificate}
+Certificates are used for all websites that run \ac{HTTPS}. 
+The certificate is used  to let visitors know that the website is secure.
+The certificate has associated cryptographic keys that are used to encrypt the data being transferred between the client and the server.
+Futhermore, the certificate might be signed by a \ac{CA} which is a trusted third party.
+When a client connects to a website that uses \ac{HTTPS}, the client will check the certificate
+to see if it is signed by a trusted \ac{CA}. If the certificate is signed by a trusted \ac{CA}, the client
+will trust the website. If the certificate is not signed by a trusted \ac{CA}, the client will get a warning
+that the website is secured by a self signed certificate.\\
+There are various methods to create a certificate, and no single approach is definitive. 
+For this project, a self-signed certificate was created to enable HTTPS connections between all services \cite{self-signed-cert}.
+
+
+\paragraph{Self signed certificate}
+When creating a self signed certificate, access to the server or the proxy that is going to handle the certificate is necessary.
+The certificate is created using the openssl command first one will have to create a private key:
+\begin{figure}[h]
+    \begin{center}
+        \javaf{openssl genrsa -out eds.key 2048}
+    \end{center}
+    \caption{Creating a private key}
+    \label{fig:private-key}
+\end{figure}
+The private key created in figure \ref{fig:private-key} is a RSA key that is 2048 bits long. 
+Normally, the private key would be encrypted with a password, but for this project, 
+the private key will not be encrypted to avoid the need to enter a password during deployment.
+Next, a Certificate Signing Request (CSR) will be created. 
+A CSR is an encoded file containing information about the organization requesting the certificate \cite{csr}. 
+The CSR is sent to a Certificate Authority (CA) for signing. In this case, the certificate will be self-signed.
+\begin{figure}[h]
+    \begin{center}
+        \javaf{openssl req -key eds.key -new -out eds.csr}
+    \end{center}
+    \caption{Creating a CSR}
+    \label{fig:csr-creation}
+\end{figure}
+When creating a \ac{CSR}, openssl ask for information to be filled. This information is about the creator of the CSR.
+The information that is asked for is:
+\begin{itemize}
+    \item Country Name (2 letter code) [AU]: 
+    \item State or Province Name (full name): 
+    \item Locality Name (eg, city): 
+    \item Organization Name (eg, company): 
+    \item Organizational Unit Name (eg, section): 
+    \item Common Name (e.g. server FQDN or YOUR name): 
+    \item Email Address:
+    \item A challenge password:
+    \item An optional company name:
+\end{itemize}
+\ac{CN} is the domain name which the certificate is going to be used for.
+After the private key and \ac{CSR} is created, we can create the certificate. We created the certificate using \javaf{x509} format.\\
+\javaf{x509}\cite{x509} is standardized format for public key certificates. What \javaf{x509} certificate provides is the ability
+to both create a self signed certificate, but also allow our application to be accessed through \ac{HTTPS}.\\
+\begin{figure}[h]
+    \begin{center}
+    \javaf{openssl x509 \ }\\
+    \javaf{-signkey eds.key \ }\\
+    \javaf{-in eds.csr \ } \\
+    \javaf{-req -days 365 -out eds.crt}
+\end{center}
+    \caption{Creating a certificate}
+    \label{fig:cert-creation}
+\end{figure}
+The certificate, created by the command seen in figure \ref{fig:cert-creation}, is designed for a single page. 
+To support multiple websites under various domains within the same subdomain, 
+a certificate endorsed by a Certificate Authority (CA) is required.\\
+Having the created certificate signed by 
+a CA allows the association of the desired subdomain, enabling an unlimited number of subdomains. 
+The initial step involves generating a new private key and self-signing 
+an CA certificate, which will be used to endorse the previously created certificate.
+Now that a CA certificate called edsCA is created by the command seen in figure \ref{fig:ca-cert}.
+edsCA can be used to sign the certificate that was created in figure \ref{fig:cert-creation}.\\
+\begin{figure}[h]
+    \begin{center}
+        \javaf{openssl req -x509 -sha256 -days 1825 \ } \\
+        \javaf{-newkey rsa:2048 -keyout edsCA.key -out edsCA.crt}
+    \end{center}
+    \caption{Creating a CA certificate}
+    \label{fig:ca-cert}
+\end{figure}
+A configuration file, named \javaf{eds.ext}, will be used to add additional information to the certificate. 
+The \javaf{eds.ext} file contains the following information:
+\begin{figure}[h]
+    \begin{center}
+        \javaf{basicConstraints=CA:FALSE} \\
+        \javaf{extendedKeyUsage=serverAuth} \\
+        \javaf{subjectAltName = *.devops.eds}
+    \end{center}
+    \caption{Data for configuration file for the CA certificate}
+    \label{fig:ca-cert-ext}
+\end{figure}
+\javaf{extendedKeyUsage} is serverAuth because we're going to use ssl/TLS authentication a server.
+\javaf{basicConstraints} is set to false because the certificate is not a valid  CA certificate.\\
+\javaf{subjectAltName} is the domain name that the certificate is going to be used for.\\\cite{openssl-ext}
+\begin{figure}[h]
+    \begin{center}
+        \javaf{openssl x509 -req -CA edsCA.crt \ } \\
+        \javaf{-CAkey edsCA.key -in eds.csr \ } \\
+        \javaf{-out eds.crt -days 365 \ } \\
+        \javaf{-CAcreateserial -extfile eds.ext}
+    \end{center}
+    \caption{Signing eds.crt with edsCA.crt}
+    \label{fig:sign-cert}
+\end{figure}
+
+The command from figure \ref{fig:sign-cert} takes a CSR (eds.csr), signs it using the CA certificate 
+(edsCA.crt) and its private key (edsCA.key), and generates a signed certificate 
+(eds.crt) valid for 365 days, including any specified extensions from the eds.ext file.\\
+This certificate has been signed with the CA certificate, 
+meaning that if it is placed in \javaf{/etc/ssl/certs/ca-certificates.crt} on Linux, the system will trust the certificate.

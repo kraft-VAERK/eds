@@ -1,0 +1,88 @@
+The project's goal is to shed light on the security risks associated with using pipelines. 
+Most \ac{IaaS} providers, such as \ac{GCP}, \ac{AWS}, \ac{Azure}, and others, entail significant costs. 
+However, \ac{SDU} is a partner in the recently launched \ac{Ucloud} managed by \ac{DeiC}\cite{deic}, offering educators, professors, 
+and students affordable access to real computing power, potentially provided as a grant for research projects.
+
+Despite being an \ac{IaaS} provider \ac{Ucloud} is a little different than traditional 
+IaaS providers.
+In this section an overview of ucloud as an \ac{IaaS} and emphasizing its characteristics. 
+Subsequently, the project aims to delve into the unique aspects of how \ac{Ucloud} functions and outline the distinctions 
+between \ac{Ucloud} and other \ac{IaaS} providers. In the following sections, \ac{Ucloud} and its features will be presented as 
+how they have been used. In section \ref{sec:discussion-ucloud}, a reflection on the challenges and features that
+has been encountered during the project will be discussed.
+
+\subsection{\ac{IaaS}}
+\label{sec:iaas}
+\ac{IaaS} refers to a cloud computing service wherein the provider hosts 
+infrastructure components typically found in an on-premises data center. 
+These components include servers, storage, networking hardware, and the virtualization or hypervisor layer. 
+The provider also offers various accompanying services, such as detailed billing, monitoring, log access, security features,
+load balancing, clustering, and storage resiliency, encompassing backup, replication, and recovery\cite{iaas}.
+
+\ac{Ucloud} bears some resemblance to a conventional \ac{IaaS} provider but exhibits distinct characteristics. 
+The primary difference lies in \ac{Ucloud}'s focus on the university environment, 
+deviating from a public-oriented approach and the development of traditional applications. 
+Instead, \ac{Ucloud} is designed for the utilization of computational power, akin to a regular \ac{IaaS}, 
+with a specific emphasis on research and education.
+
+Given its tailored use for application development, 
+\ac{Ucloud} does not necessitate certain security measures that would be essential for a more public-facing \ac{IaaS}.
+
+\subsection{Deployment and connection to \ac{Ucloud}}
+\label{sec:deployment-and-connetion-ucloud}
+\subsubsection{Deployment}
+\label{sec:deployment-ucloud}
+\ac{Ucloud} offers various sections for deploying virtual machines, which are situated across different universities in Denmark. 
+The primary locations utilized are at \ac{SDU} and \ac{AAU}. However, \ac{SDU} instances have a notable drawback as they lack support for nested virtualization, 
+rendering them unsuitable for certain applications. This limitation poses an issue, 
+especially considering the crucial role of Docker in deploying Gitea and other project components, as discussed further in section \ref{sec:docker}.\\
+On the other hand, \ac{AAU} machines are provisioned through the \ac{Ucloud} platform accessible at \url{https://ucloud.sdu.dk/}. 
+The process of spawning these machines involves several steps. Firstly, users need to select the desired \ac{OS} and its version. 
+Then, they specify a name for the instance and choose the appropriate virtual hardware configuration. Lastly, when deploying a machine, 
+users must specify the required hardware or computational power. The hardware configurations are divided into three categories: 
+small, medium, and large. These categories differ in the number of \ac{vCPU}, \ac{RAM}, and storage.
+\begin{itemize}
+    \item Small provides 4 vCPUs, 16 GB RAM, and 100 GB storage.
+    \item Medium offers 8 vCPUs, 32 GB RAM, and 100 GB storage.
+    \item Large provides 16 vCPUs, 64 GB RAM, and 100 GB storage.
+\end{itemize}
+This specific selection is specific for certain products available on \ac{Ucloud}, where as 
+other product and \ac{VM}s might have different configurations and computational power options.
+
+\subsubsection{Connection}
+\label{sec:connection-ucloud}
+The connection to the instance relies on \ac{SSH}, with the \ac{SSH} key provided during instance spawning facilitating access. 
+However, one significant limitation of this method is the inability to leverage \ac{SSH} connections in a sophisticated manner. 
+Other machines on the \ac{Ucloud} network can be accessed through a web client, but all the machines on the 
+\ac{AAU} cluster that has the required nested virtualization capabilities are only accessible through \ac{SSH}, without any 
+interface to the machine, only \ac{CLI} access.
+
+\subsection{Ucloud interface}
+\label{sec:ucloud-interface}
+To spawn new machines and interact with the Ucloud infrastructure, you need access to the \ac{Ucloud} interface. 
+This access is provided through the wayF login system, a federated single sign-on system used by all Danish universities. 
+The wayF login system allows users to log in to multiple systems using the same credentials.
+
+The \ac{Ucloud} UI features multiple sections accessible to users. Upon logging in, the user are greeted by the dashboard.
+The dashboard at left hand side of the screen has 5 different menu, which folds out when hovered over. 
+As all of them serve a purpose, the options are resources, application, runs and project
+
+\paragraph{Resources}
+Here the user has an overview over what is allocated for the project that is selected.
+For this project, a grant was applied for and granted. This gave the project access to 
+public link, SDU machines resources, AAU machines resources and a project storage.
+
+\paragraph{Applications}
+Applications is the section where the user can selection a product that is going to be run.
+There is a big variety of machines available for use, but the most used in this project was 
+version 22.04 LTS ubuntu for running development and production environments such as the remote Gitea server.
+
+\paragraph{Runs}
+Runs the section where the user has an overview of the runs that is running on the currently selected project.
+The overview is very simple and gives only information of the run name, status and product in form of the image 
+supplied to that particular product.
+
+\paragraph{Projects}
+Under the project section, members of a certain project can see and follow the project that they are part of.
+\javaf{allocation}, \javaf{members}, \javaf{usage} and so on. It gives a brief over of what is what,
+and what are running inside the project.

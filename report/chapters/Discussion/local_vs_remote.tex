@@ -1,0 +1,62 @@
+Two pipelines using the same programs were developed during this project.
+One pipeline with a local Drone instance and a remotely connected Gitea server.
+The other is a totally localized deployable pipeline with a local Gitea server and a local Drone instance.
+For structural purposes, the pipelines are named \javaf{local} and \javaf{remote}.
+
+\subsection{Local pipeline}
+\paragraph{Configuration at initialization}
+The local pipeline resolved all the issues encountered with the remote pipeline, 
+but it required creating several configuration files for initialization. To ensure the pipeline deployment was fully automated, 
+all infrastructure components such as users, repositories, webhooks, and secrets had to be set up before the first login to Gitea and Drone.
+Since the setup had to be completed before the actual Gitea and Drone servers were running, manual insertion into the database was necessary. 
+This meant that for creating secrets, users, webhooks, and other configurations, 
+it was essential to insert the data into the databases of both programs. 
+This process often led to large SQLite databases queries with incorrect data entries and unpredictable program behavior.\\
+Testing the extensive configuration required running the pipeline and all related programs in Docker containers. 
+Each configuration and deployment cycle took four to six minutes. Given that the deployment process for the 
+localized pipeline was executed around 300-500 times.
+\paragraph{Resource consumption}
+As the pipeline used Docker to spawn runners inside a Docker image, the resource consumption 
+could potentially be high at a point. Drone gives a restriction in how many runners a pipeline or project 
+can run a the same time, but there is no restriction in how many Docker containers a runners can spawn to be able to 
+complete its execution. This could potentially lead to a high resource consumption on the host machine.
+To prevent this a quota for the runners could be set, but this was not implemented in the pipeline.
+Because the quota wasn't implemented into the runners was because a thorough testing of computational resources 
+and how much a runner would consume was not done during extreme load. However, it is uncertain whether, if implemented, 
+this features should be something done in \ac{HAAUKINS} or something done directly into the pipeline. Implementing
+would also mean for local deployment that overusing resources would not be a problem.
+
+\subsection{Remote pipeline}
+\paragraph{OAuth2 issue}
+The remote pipeline was constructed to address an issue encountered with OAuth2. 
+The problem arose because the Drone server and the Gitea server were both running on the same machine using the same URL, 
+localhost, differentiated only by port numbers. This caused OAuth2 to malfunction, as it could not distinguish between the two servers, 
+resulting in redirects to the wrong server and failed authentication attempts.\\
+Through extensive testing and debugging, the solution was found to separate the two servers and assign a 
+different URL to the Gitea server. This was achieved by deploying the Gitea server on a remote machine while keeping the drone server 
+on a local machine. This allowed OAuth2 to differentiate between the two servers, leading to a successful authentication process.\\
+Later in the thesis process, it was discovered that this 
+issue could also be resolved on the same machine by using different URLs for the two servers and placing them behind a reverse proxy.
+\paragraph{Pipeline structure}
+In the remote pipeline setup, the Drone server was localized while the Gitea server was remote. 
+This arrangement made the connection and communication between the two servers challenging. 
+Normally, both the Drone and Gitea servers would be exposed to the internet. 
+However, automating the exposure of the Drone server to the internet was not resolved.\\
+To facilitate communication between the two servers, an SSH connection from the Gitea server machine 
+to the Drone server was used. This allowed the Gitea server to send \javaf{GET, POST, DELETE, and PUT} requests through 
+the SSH connection to the Drone server. This approach was necessary because the Gitea server resided in a VM on \ac{Ucloud}, 
+and, as mentioned in section \ref{sec:connection-ucloud}, the VMs on \ac{Ucloud} are only accessible via SSH.
+After the \javaf{drone.sh} script was completed, users had to manually create a key pair for the Gitea server, 
+enabling it to establish an SSH connection and forward traffic to the Drone server.
+
+Having this structure for the pipeline was not optimal. It had many 
+drawbacks and wasn't really an automated deployment. There was almost issues with either 
+creating users, webhooks, push repositories to remote Gitea, pipeline not being able to sync with the Gitea server,
+Gitea not being able to communicate with the Drone server and so on.
+\paragraph{Ngrok issue}
+For having the Gitea remotely accessible Ngrok was used to create a public \ac{URL} to the 
+server and exposing it. Although Ngrok offers free usage with a single domain, a change in the Terms of Service (TOS) 
+limited the amount of data available to free users per month. This limitation rendered the pipeline unusable once 
+the data quota was exhausted, making the remote Gitea server inaccessible. 
+Consequently, Ngrok was abandoned, and the pipeline was moved to a localized solution.
+

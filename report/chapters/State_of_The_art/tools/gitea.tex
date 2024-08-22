@@ -1,0 +1,70 @@
+\subsection{Gitea - Git Server}
+\label{sec:gitea}
+\subsubsection{Gitea}
+
+Gitea\cite{giteadocs} is a self-hosted \ac{Git}\cite{git} service. Similar to GitHub\cite{GitHub}. 
+It allows the user to customize and run 
+their own Git server. Gitea has a lot of great features such as: code hosting, code review, issue tracking, and wiki pages.\\
+Gitea offers the possibility of authenticating a \ac{CI/CD} tool to the server. This means that the user
+can have a external pipeline software such as Jenkins\cite{jenkinsio}, GitLab CI\cite{gitlab} or Drone\cite{droneio} to run tests on the code before it is
+merged into the master branch.
+Gitea is open-source, meaning that users will be able to customize it completely to their needs.
+
+\subsubsection{Gitea for this project}
+Firstly, Gitea is open-source and customization is key since it gives the possibilities to change things based on vulnerabilities and 
+make Gitea acts as the CTF needs.
+Secondly, it has \ac{CI/CD} support. Meaning that \ac{CI/CD} tools such as Drone can be integrated with Gitea.
+Thirdly, it has code review. Code review is important since 
+since the pipeline can be configured in so many ways, and the runners for the pipeline will most likely execute code, 
+with either all privileges or at least with some more than a developer has. This could mean that there might be some way 
+for a malicious user to exploit the pipeline and gain access to runner based on just asking for code reviews.
+\subsubsection{Gitea static installation}
+For this project, the aim is to offer a streamlined 
+installation process for Gitea.
+Based on the fact that Gitea can be customized to the needs of this project,
+a static installation which depend on only itself is the best approach.
+This involves providing a static installation 
+tailored specifically for deployment via Docker.
+That includes, initialization, basic configuration, minimal infrastructure setup, users, Oauth2, repositories, and more.\\
+This ensure that once the Gitea is deployed and running, that a user 
+do not have to do anymore configuration and can start using the Gitea server right away, for it the desired purpose.\\
+All this needs to be encapsulated inside the Docker image, that essential will spawn the Gitea server.
+Therefore the following is important for the Gitea server: 
+
+\begin{itemize}
+    \item \textbf{Version} The version for gitea is important to predefined. 
+    This is because Gitea is an open-source project and can be subjective to changes at any time. For this project,
+    it is pivotal to ensure that the end result is the same as when the project was started.
+    The version used is $1.21.6$. This is specified in the \javaf{Dockerfile.gitea}.
+    \item \textbf{Configuration} The configuration of Gitea needs to be static.
+    When Gitea is installed,
+    it will prompt the installer with a initialization configuration, see figure \ref{fig:gitea_app_ini_remote} for example,
+    which is then used to configure Gitea. In this configuration there is the base information for Gitea to run properly.
+    As the deployment of Gitea must be automated, a predefined configuration of the \javaf{app.ini}
+    file is injected into the Docker image, which then will be used to configure Gitea.
+    can be found the source code of the project under \javaf{src/Gitea/app.ini}.
+    The configuration of Gitea also includes a minimal infrastructure setup. What this means is 
+    that the database can be accessed before the Gitea server is started.
+
+    \item \textbf{Repositories} Gitea is the code base of the CTF's repositories. 
+    This means that the repositories needs to be created at initialization, so that when the user start the image via docker-compose,
+    all the repositories are present.
+    The repositories are predefined in \javaf{src/Gitea/repositories}.
+    The repositories are pushed to the Gitea server database via a python3 script called \javaf{giteacasc}\cite{cicd-goat}.
+\end{itemize}
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[scale=.5]{images/Gitea-appin.JPG}
+        \caption{Gitea app.ini}
+        \label{fig:gitea_app_ini_remote}
+    \end{center}
+\end{figure}
+There is a lot of other configuration needed specifically for Gitea, but these will be discussed in section \ref{sec:pipeline-local}.
+\subsubsection{Gitea remote}
+In this project, a local instance of Gitea was made remotely accessible, effectively turning it into a public Gitea server. 
+This was achieved using Ngrok\cite{ngrok}, an ingress service that exposes the local Gitea server to the internet. 
+Ngrok will be described in section \ref{sec:ngrok}. The local and remote Gitea server had very different configurations; the remote 
+Gitea need to be configured whenever a new user arrived, whereas the local Gitea instance needed to be fully configured at initialization. 
+Recent updates to Gitea have restricted the use of admin calls, necessitating the use of an earlier version for remote configuration. 
+The remote version of Gitea was $1.16.5$, allowing for more manipulation of Gitea data, through the \ac{API},
+compared to the localized version, which used the later version $1.21.6$.

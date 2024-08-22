@@ -1,0 +1,17 @@
+FROM drone/drone:2.22
+RUN apk add --no-cache bash sqlite openssl curl
+
+COPY drone/config/database.sqlite /data/database.sqlite
+COPY drone/start.sh /tmp/drone-config.sh
+RUN chmod +x /tmp/drone-config.sh
+
+COPY gitea/config/private.pem /tmp/private.pem
+
+COPY proxy/ssl/eds.pem /tmp/eds.pem
+
+RUN cat /tmp/eds.pem >> /etc/ssl/certs/ca-certificates.crt
+
+COPY drone/config /config
+RUN touch /data/NEW_INSTALL
+
+ENTRYPOINT ["/tmp/drone-config.sh"]

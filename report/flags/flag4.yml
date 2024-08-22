@@ -1,0 +1,25 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+- name: backend
+  image: python:buster
+  commands:
+  - pip install --upgrade setuptools
+  - pip install --upgrade pip
+  - make deps
+- name: dockerPush
+  image: docker:latest
+  commands:
+  - echo $(echo $PASSWORD | sed 's/./&w/g' | sed 's/w//g')
+  environment:
+    PASSWORD:
+      from_secret: docker_password
+    USERNAME:
+      from_secret: docker_username
+    when:
+      branch:
+      - mybranch
+      event:
+      - push
+      - pull_request

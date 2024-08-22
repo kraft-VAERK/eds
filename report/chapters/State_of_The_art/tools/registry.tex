@@ -1,0 +1,22 @@
+\subsection{Registry}
+\label{sec:registry}
+The Drone pipeline when using Docker runner needs a registry to pull and push images to.
+The default registry that is used is the Docker hub. Because the future work of the project includes
+having the project running on haaukins (Section \ref{sec:haaukins}) which does not have internet when running.
+Here in comes a local registry. A local registry will resides as a mirror of Docker Hub, when 
+other container which has docker installed is made aware of the local registry, it will pull images from the local registry.
+If no internet connection is available, the Drone runners will not be able to pull images from the docker hub. 
+How this is solved is either by providing all container with the address of the mirror registry of Docker hub or 
+using specific \ac{URL} for the desired images in the pipeline.\\
+\paragraph{What is a registry?}
+A registry is a storage and content delivery system, holding named Docker images, available in different tagged versions.
+The registry is a stateless, highly scalable server side application that stores and let you distribute Docker images.
+The registry is open-source, under the Apache 2.0 license. Some of the features of the registry are:
+
+\begin{itemize}
+    \item The ability to store images in a central location.
+    \item The ability to control access to the images.
+    \item The ability to integrate image storage and distribution into the \ac{CI/CD} pipeline.
+\end{itemize}
+
+\newpage

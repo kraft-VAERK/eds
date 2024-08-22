@@ -1,0 +1,122 @@
+\section{\ac{CTF}}
+\label{sec:ctf}
+
+\subsection{Training repository for Drone}
+The knowledge of pipeline configuration is essential in order for a developer to understand how to configure a pipeline.
+As there are many pipeline tools and software, the knowledge of the specific pipeline tool is essential.
+In this CTF, the user is added to the repository Firelands.
+Firelands runs the user through how to construct a pipeline in Drone. The training material comes in five steps:
+\begin{itemize}
+    \item Step 1 - Pipeline kind, type, name.
+    \item Step 2 - Using a steps - Executing a command on a runner.
+    \item Step 3 - Using a services, hence a database or a web server.
+    \item Step 4 - Using second steps after the first.
+    \item Step 5 - Using environment variables and secrets in the steps part.
+\end{itemize}
+
+Introducing these parts of the Drone pipeline allows the user to understand and know how 
+the pipeline works before delving into the CTF's. A complete solution for the first CTF or training repository can 
+be see in \ref{app:firelands-solution}
+
+\subsection{Remote code execution, on a runner}
+For pipelines today, execution of code is of great importance. It leaves computational tasks to runners, which normally resides 
+on a different machine than the users. That is a good practice, since it leaves the user machine free to focus on quick
+development and will not use any computing power on running code. But this also leaves the runner open to attacks.
+
+When using pipelines, the runners execute whatever the pipeline configuration tells it to do without any questions.
+In most of the cases, the execution phase is smooth and without any problems, but what if the pipeline is compromised?
+
+\paragraph{Amirdrassil repository\cite{photoview} - Remote code execution CTF's}
+In the CTF's a new developer is given access to an already developed project. 
+The developer becomes part of the Amirdrassil project 
+and is left will all the possibilities to change and execute the pipeline by pushing code to the repository. The developer 
+must take control of the pipeline eq. the runners and execute code on the runner to grab the flag. 
+The solution to the pipeline can be found in \ref{app:amirdrassil-solution}.
+
+\subsection{Stolen Credentials}
+\label{sec:stolen_credentials}
+Credentials are the keys to the kingdom. Credentials are essentials to security, since is something really secure if there is no 
+way to access, then it might just be classified as inaccessible and not secure. Credentials are a crucial part of a security chain in a 
+system. If credentials are stolen, all other security measures are useless.
+
+In todays world of \ac{devops}, accessing remote or internal systems is done by credentials.
+Drone handles the credentials either per repository or per organization. Drone does not specify how the secret are stored,
+but after a look into the database of Drone, it seems they are stored in clear text in the database. 
+it is uncertain whether they are protected by a layer of security measure or not.
+However, accessed by the runner with a simple linux command such as \texttt{echo \$\{SECRET\}}, shows the asteriks representation of 
+the secret is printed out in the logs.
+
+What this means, if the runner is compromised, the credentials is still safe since the runner does not reveal the secret when printed to stdout.
+For the solution to this CTF, the developer takes control of the pipeline. Then changes the pipeline to access secrets stored on the runner and 
+print them out in clear text. See solution for the pipeline configuration can be seen in appendix \ref{app:amirdrassil-solution}.
+
+\paragraph{Abberus repository\cite{flask-foundation} - Steal credentials CTF's}
+To simulate an attack where an attacker steals secret credentials used to access a registry, consider the following scenario:
+
+The repository simulates a typical organizational repository, with the pipeline defined in the .drone.yml file. 
+This pipeline represents the usual steps for executing tasks on either a test branch or the main branch. 
+The attacker, positioned as a developer, faces restrictions such as branch protection on the main branch and a repository webhook that triggers only on push events and merge requests related to the main branch.
+
+To steal the credentials, the attacker must navigate these constraints by leveraging their developer access to 
+introduce malicious code or configurations within the scope of their permissions, 
+thereby exfiltrating the credentials during a legitimate pipeline execution.
+\begin{itemize}
+    \item First, create a new branch. The name of the challenge is not important.
+    \item After the branch has been created, the attacker must change the already constructed pipeline to print out the secrets.
+    Drone protects the secrets by changing them to asterisk representation.
+    To get the secrets in clear text, the attacker can create a command that changes the secret into another string than the secret.
+    \begin{center}
+        \javaf{- echo $(echo $PASSWORD | sed 's/./&w/g' | sed 's/w//g')}
+    \end{center}
+    \item When the attacker has changed the pipeline, the attacker then creates a merge request to the main branch,
+    which will trigger the pipeline to run the changed pipeline.
+    \item Last the attack copies the changed string to the host pc and removes the extra character that was added.
+\end{itemize}
+
+An entire solution of the pipeline can be found in appendix \ref{app:abberus-solution}
+
+
+\subsection{Supply chain attack}
+\label{sec:supply_chain_attack}
+A supply chain is when a user of a software program or software developer environment uses
+third party, open source software or a other software to build or run their own software or environment.
+Meaning that the program is dependent on another program to be bug free, secure, and reliable.
+
+A project might not always use supply chain to run but based on the fact that more companies and developers are more prone to use 
+third party software than ever, the risk of a supply chain attack is increasing. 
+Information from various sources indicates that the risk of supply chain attacks is increasing. 
+This rise is attributed not only to the growing number of third-party providers but also to the increasing number of compromised open-source projects.
+\cite{supplychainbrain_supply_chain_breaches}\cite{statista_open_source_supply_chain_attacks}.
+
+A supply chain attack occurs when third-party software is compromised. This software might be a dependency for another application or service.
+ An attacker can alter or introduce a vulnerability into the third-party software. 
+When the software is updated, the exploitable code becomes accessible, allowing the attacker to target the supposedly \texttt{"secure"} system.
+
+Executing a supply chain attack is no simple feat. Typically, the attacker initiates the process with what is known as an upstream attack. 
+In an upstream attack, the assailant targets the software or its provider directly. Once access to the software provider is obtained, 
+the attacker may implant a vulnerability within the software. The subsequent phase of the supply chain attack involves the downstream attacker. 
+Here, the downstream attack occurs when the newly implanted vulnerability is triggered within software that relies on the compromised software.
+\cite{cloudflare_supply_chain_attack}
+
+\paragraph{Ulduar and Icecrown repository - Supply chain attack CTF's}
+The supply chain attack consists of two repositories, a repository were the user only has read access and another 
+repository where the user has write access. 
+
+\paragraph{Ulduar repository\cite{flask-blog}}
+Ulduar is a repository where users have read-only access. It simulates a typical repository containing a pipeline file. 
+This pipeline is configured on the drone server to run as a cron job every 2 minutes. 
+Although it is uncommon for a pipeline to execute this frequently, it is set this way for simulation purposes to save time. 
+The pipeline utilizes a Docker image, 
+which is retrieved from the local registry created during the deployment of the entire infrastructure.
+
+\paragraph{Icecrown repository}
+In the Icecrown repository, the developer has full access. This repository simulates a supply chain for the Ulduar repository. 
+Since the Ulduar repository uses a Docker image from the local registry, which Icecrown can access, it allows the developers to build a new, 
+"infected" image within Icecrown's pipeline and push it to the local registry. When the Ulduar repository runs its pipeline, 
+it will fetch and execute this new "infected" image. 
+The user's task is to alter the Docker image used by the Ulduar repository so that the Ulduar repository prints out its flag.
+
+\paragraph{Solution}
+As this \ac{CTF} is not finished due to time constraints, the solution and general
+source code is not complete. However the source code for the CTF and pipeline can be found under,\\
+\javaf{src/gitea/repositories/Ulduar} and \javaf{src/gitea/repositories/Icecrown}.

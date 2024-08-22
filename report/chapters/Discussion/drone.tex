@@ -1,0 +1,40 @@
+\subsection{Drone problems}
+\label{sec:discussion-drone}
+
+\subsubsection{Deployment on drone}
+The newest version of the Drone server uses Oauth2 to authenticate user account to the server.
+This means that another entity, such as gitea authenticates user to the Drone server. This is done by
+setting up a Oauth2 application in gitea, and then using the client id and client secret to authenticate
+the user to the Drone server. On the Drone official website, it states that it is not recommend to deploy 
+Drone with docker-compose, because of the potential network issues that might arise.
+\paragraph{Problem 1, integration with gitea over OAuth2}
+Other than starting out figuring out how to run Drone, I had to figure out how to integrate it with gitea.
+Now later version of Drone, had its own database of users and therefore didn't have to rely on gitea for authentication.
+Now this means that before being able to run Drone runners to execute pipeline, the user that wish to use Drone,
+needs to authenticate with the gitea server, and post a access token to the gitea server. Essentially the user needs a token 
+when is used to authenticate with the gitea server.
+Now the authentication process is not a problem, the Drone CI/CD documentation is very specific about how to do it and if done 
+correctly it'll work fine.
+Now the big problem is posting the token to the gitea server. The gitea server will not accept the token, being posted over http connection,
+and it refusing the connection. 
+Since Drone need to make it's access token available to the gitea server, it needs to be able to post it to the gitea server.
+The problem can be solved by using a proxy or a https connection on the gitea server, but that is not a viable solution.
+
+\paragraph{Problem 2, Advertised problem by Drone}
+Now the is linked to the first problem and is about the network aspect of Drone.
+The authentication of the user is done in the browser. When that is done Drone obviously needs to be able to communicate with the gitea server.
+Now the problem, and im not sure how docker compose works in this part, but what I've deciphered from the internet is that 
+Drone might not be able to find the gitea server, and post the token to it.
+
+\paragraph{Problem 3, Drone runner}
+When the Drone server is operational, it acts as the intermediary connecting the Git server 
+and the runners responsible for executing the pipeline. 
+To ensure a smooth pipeline execution, it is imperative that the pipeline configuration 
+for the Drone server is exceptionally detailed. This configuration should explicitly define 
+crucial details such as the software used to manage the Drone server, particularly Docker if the Drone runners 
+are tasked with running the pipeline within Docker containers.
+
+Furthermore, the fact that this specification must be written in YAML introduces a 
+level of dependency on YAML syntax and indentation. It's important to note that the 
+specific syntax and indentation requirements can vary from one software platform to another when defining the structure of the pipeline. 
+Therefore, careful attention to these details is vital to ensure accurate and effective pipeline execution.

@@ -1,0 +1,17 @@
+\begin{itemize}
+    \item First: Gitea is an open source project and is there subjective to changes at any time. For this project,
+    I need to ensure that the end result is the same as when I started the project. 
+    To circumvent this, the base image of Gitea is chosen to be version 1.16.5. Now why this version? 
+    Based some testing it seems that most of the API admin options are unavailable in version later than 1.19.0. Version between 1.16.5 and 1.19.0
+    have changes which impacts the use of admin API options.
+    Using the version 1.16.5 Docker image esnure that even though long time developing this project, the base image stay the same and 
+    the end result will be same as when i started the project, and when the user pulls the image.
+    \item Second: The configuration of Gitea needs to be static. When Gitea is installed, it will prompt the installer of Gitea 
+    to specify what that person wants. This information will be stored in a special file called app.ini. This file is 
+    used by Gitea to configure itself\ref{fig:gitea_app_ini_remote}. The rest of the app.ini file for this project
+    can be found the source code of the project under Gitea/app.ini.
+    \item Third: Users needs to be created at initialization, so that when the user start the image via docker-compose. 
+    The database is already populated with users, and the user can start using the service right away.
+    This is done with python3\cite{python} script which 
+    post users to the database via a \ac{RESTAPI}, with admin credentials.
+\end{itemize}

@@ -1,0 +1,113 @@
+In this section, A presentment and discussion about the \ac{HAAUKINS} program. 
+Also exploration of \ac{HAAUKINS} as a standalone program, separate from this 
+specific project. 
+The experiences and problems that has been encountered with \ac{HAAUKINS} during 
+this project will be discussed in Section \ref{sec:discussion-pipeline}. 
+Additionally, certain aspects of information will mentioned, that lack formal references, 
+as they are either not covered in the \ac{HAAUKINS} documentation or were mentioned 
+informally by other IT professionals to the author.\\
+\ac{HAAUKINS} is a program developed by students at \ac{AAU},
+and over the past year or two, it has been transitioning towards commercial use. 
+During the time of writing this thesis, \ac{HAAUKINS} 2.0 has been under development and 
+has been soft-released without any accompanying documentation. \\
+Additionally, some details covered in this section might not be entirely accurate, 
+as it has been impossible to contact the main developer of \ac{HAAUKINS}. 
+There is no comprehensive documentation on how \ac{HAAUKINS} functions, 
+so the only way to gather information is by reading the source code.
+Through the work on the \ac{DDC} project, the author has gained some 
+knowledge on \ac{HAAUKINS}.
+
+\ac{HAAUKINS} is automated virtualization platform for security education. 
+\ac{HAAUKINS} is constructed by three main components, Docker, VirtualBox, and \ac{Golang}.
+\ac{HAAUKINS} utilizes \ac{Golang} to create the communication and orchestration between instances that 
+it has running. The main reason of \ac{HAAUKINS} using \ac{Golang} as its programming language is its concurrency and 
+parallelism mechanisms.\cite{haaukins}
+
+\subsection{Docker}
+\label{sec:haaukins-docker}
+Docker is used for creating a closed network for the containers. Each challenge, called labs, that are 
+spawned on \ac{HAAUKINS} has it own docker container. Using docker network in that
+way creates a necessary security for the challenges, because users that are 
+interacting with the challenges are not able to access other containers that are in use of 
+other users.
+
+To prevent other teams or players to interact with other teams or players labs,
+\ac{HAAUKINS}
+gives a team or player access to the specific docker network together with a kali linux machines, 
+meaning that a team or player can interact with the labs, that he or she has spawned. 
+In an earlier version of \ac{HAAUKINS} all labs were spawned at initialization. In \ac{HAAUKINS} 2.0
+users are able to select which labs they want to spawn,
+with a maximum of five labs. 
+From personal experiences from the nationals \ac{DDC} and 
+looking at the logs from the running \ac{HAAUKINS}, it is clear that the new version of \ac{HAAUKINS}
+had a positive impact on the performance of \ac{HAAUKINS}.
+
+\subsection{VirtualBox}
+\label{sec:haaukins-virtualbox}
+Virtualbox is used to manage \ac{VM}s. VirtualBox is one of the main components of \ac{HAAUKINS}.
+Each user is given a kali linux machine, which contains all related tools to solve \ac{HAAUKINS} labs.
+A user is given access to this kali linux machine \ac{GUAC}\cite{guacamole} interface, which is a web based interface
+that allows the user to interact with the kali linux machine.
+
+\subsection{\ac{Golang}}
+\label{sec:haaukins-golang}
+\ac{HAAUKINS} uses \ac{Golang} as it main programming language. As mentioned previously,
+\ac{Golang} is used because of it concurrency and parallelism mechanisms. \ac{Golang} also 
+provides Docker and virtualization libraries which makes the management of Docker containers and \ac{VM}s easier.
+
+\subsection{HAAUKINS communication}
+\label{sec:haaukins-communication}
+There are number of cases where different types of protocols used to make communication reliable and consistent between components in \ac{HAAUKINS} platform. 
+Mainly used protocols are\cite{haaukins-arch}
+\begin{itemize}
+    \item 
+    \ac{HTTPS} is used to give the user access to CTFd. 
+    CTFd is a web interface that tracks the overall progress of an event,
+    and is also used to hand in flags.
+    \item
+    \ac{RDP}, is used for the communication to the \ac{VM}s. \ac{RDP} is used to communicate with the \ac{VM}s and the apache guacamole module.
+    \item 
+    \ac{gRPC} is used to communicate between the client and the daemon. \ac{gRPC} is a high performance, open-source and universal remote procedure call (RPC) framework.
+\end{itemize}
+
+\subsection{Creating a challenge in HAAUKINS}
+\label{sec:haaukins-creating-challenge}
+Through work on the \ac{DDC} project, knowledge was gained on how to create a challenge in \ac{HAAUKINS}. 
+The process of creating a challenge on \ac{HAAUKINS} requires several steps.\cite{haaukins-challenge}
+
+\paragraph{src folder \& solution folder}
+The src folder contains the src code for the challenge that has been created. For example, 
+if the created challenge is a web challenge using the flask framework, the src folder will contain 
+the infrastructure for the flask framework, such as route, templates and static files.\\
+The solution folder holds solution for the challenge if scripting or programming is required to solve the challenge.
+\paragraph{Dockerfile}
+The Dockerfile is placed in the root directory of the challenge. The Dockerfile is used to build the Docker image.
+The Dockerfile is used by the pipeline in gitlab, for \ac{HAAUKINS} that file is called gitlab-ci.yml
+\paragraph{gitlab-ci.yml}
+\ac{HAAUKINS} is using pipeline to test integration for challenges into \ac{HAAUKINS}. This means 
+that every time that a new branch is pushed to the main branch, gitlab will run the pipeline to test the integration of the challenge.
+\paragraph{challenge-config}
+The challenge-config folder contains the configuration files for a challenge on \ac{HAAUKINS}. 
+Inside this folder, a file named challenge.yml is placed. The challenge.yml file includes various configuration details for the challenge, 
+such as the name, category, difficulty, flag, readme, and solution. 
+It also contains a complete description of the challenge and the text that users will see when they open the challenge.\\
+For a haaukins challenge there is two types, \javaf{dynamic} and \javaf{static}.\\
+\javaf{Dynamic challenge} is where 
+an attacker has to interact with a remote host to get the flag. The remote host is packed inside a Docker container, and the 
+attacker has access to the remote through Docker network as mentioned in Section \ref{sec:haaukins-docker}.\\
+\javaf{Static challenge} consists of a downloadable artifact that the attacker has to analyze to get the flag. 
+A challenge could either be a cryptography or a reverse engineering challenge, where the user gets files to analyze or reverse.\cite{haaukins-challenge}
+
+
+\subsection{Local instance of HAAUKINS}
+One of the aims of the project was to explore \ac{HAAUKINS} and determine the feasibility of deploying a local instance of 
+\ac{HAAUKINS}. This instance was intended to be hosted on \ac{Ucloud} machines, with the pipeline and \ac{CTF}s running on that infrastructure.\\
+A contact within the HAAUKINS project was available for assistance, but this individual primarily focused on developing 
+events and \ac{CTF}s and lacked knowledge about local deployment of HAAUKINS.\\
+As the exploration into deploying \ac{HAAUKINS} locally progressed, significant challenges emerged. 
+The primary issue was the lack of documentation on local deployment. There was no clear information on how the daemon, 
+client, and the CLI (hkn) worked together.
+
+After a month of attempting to deploy \ac{HAAUKINS} locally, the effort was abandoned. 
+The main reasons were the lack of documentation, insufficient information on the interaction between the different components of \ac{HAAUKINS}, 
+and the inability to contact the main developer of \ac{HAAUKINS}.

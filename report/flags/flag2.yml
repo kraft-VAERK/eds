@@ -1,0 +1,37 @@
+## ----  Step 1  ------
+kind: pipeline
+type: docker
+name: number1
+
+## ----  Step 2  ------
+steps:
+  - name: python1
+    image: registry.devops.eds/python:buster
+    commands:
+        - pip install -r requirements.txt
+        - python app.py
+## ----  Step 4  ------
+  - name: docker-using-environmental
+    image: registry.devops.eds/docker:1
+    commands:
+        - sleep 3
+        - docker login https://registry.devops.eds -u $USERNAME -p $PASSWORD
+        - echo "hello"
+    environment:
+      USERNAME:
+        from_secret: USERNAME
+      PASSWORD:
+        from_secret: PASSWORD
+  - name: flagtaking
+    image: registry.devops.eds/python:buster
+    commands:
+      - python flag.py $FLAG
+    environment:
+      FLAG:
+        from_secret: FLAG
+## ----  Step 3  ------
+services:
+  - name: python-server
+    image: registry.devops.eds/python:buster
+    commands:
+      - python python_server.py

@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 8504bb5c504e958cef794788554c9f7b1f4942da Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713701963 -0400	clone: from https://github.com/JackStouffer/Flask-Foundation.git
+8504bb5c504e958cef794788554c9f7b1f4942da 8504bb5c504e958cef794788554c9f7b1f4942da Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713704930 -0400	checkout: moving from master to main
+8504bb5c504e958cef794788554c9f7b1f4942da 4d6fb5e921ead5b64a8a633ba731dfb3b1e61419 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713705036 -0400	commit: changed main branch name and pipeline config
+4d6fb5e921ead5b64a8a633ba731dfb3b1e61419 745570c9098f104b9a0e6f0e824b8d4eeaaeaf6d Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713778333 -0400	commit: fixes for the productions
+745570c9098f104b9a0e6f0e824b8d4eeaaeaf6d 59de4ec52bdb2195a8cb1f88de07a12ca3613470 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713778698 -0400	commit: Package fix
+59de4ec52bdb2195a8cb1f88de07a12ca3613470 f0835473b3ea8d65536e4da5f186965401c94600 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713779058 -0400	commit: update for deployment
+f0835473b3ea8d65536e4da5f186965401c94600 01a1335f59da951f5b48c2e9ce5690d53621341a Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713779761 -0400	commit: ready for instruction for automation to prod
+01a1335f59da951f5b48c2e9ce5690d53621341a a5db27fd5841506ee7d2a3b6f9084645969dfc44 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714986487 -0400	commit: Docker registry location changed
+a5db27fd5841506ee7d2a3b6f9084645969dfc44 9ffce730be5aac0ca1ccdebfdf44eaaa35b31de4 Your Name <you@example.com> 1724236132 -0400	commit: updated the pipeline

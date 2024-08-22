@@ -1,0 +1,18 @@
+FROM registry:2.8
+RUN apk add --no-cache bash curl docker docker
+
+RUN echo '{"insecure-registries" : ["registry.devops.hkn:443"]} >> /etc/docker/daemon.json'
+RUN mkdir -p /etc/docker/certs.d/registry.devops.hkn
+
+COPY registry/config/htpasswd /auth/htpasswd
+COPY registry/config/config.json /root/.docker/config.json
+
+COPY registry/init.sh /tmp/init.sh
+RUN chmod +x /tmp/init.sh
+COPY proxy/ssl/eds.crt /etc/docker/certs.d/regsitry.devops.hkn/ca.crt
+COPY proxy/ssl/eds.pem /tmp/eds.pem
+RUN cat /tmp/eds.pem >> /etc/ssl/certs/ca-certificates.crt
+
+COPY registry/docker_images.tar.gz /tmp/
+
+ENTRYPOINT [ "/tmp/init.sh" ]

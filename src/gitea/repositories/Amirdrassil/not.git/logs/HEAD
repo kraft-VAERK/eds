@@ -1,0 +1,8 @@
+0000000000000000000000000000000000000000 f900d553005b42a8b881e35e52f41b6da85c0796 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713705535 -0400	clone: from https://github.com/photoview/photoview.git
+f900d553005b42a8b881e35e52f41b6da85c0796 f900d553005b42a8b881e35e52f41b6da85c0796 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713705561 -0400	checkout: moving from master to main
+f900d553005b42a8b881e35e52f41b6da85c0796 ca27fa6c7da0464d4189ebe721b7ef76516d26a8 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1713705708 -0400	commit: pipeline update
+ca27fa6c7da0464d4189ebe721b7ef76516d26a8 74a7f0f5362d2834e968552937bac2c9b4f6c020 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714727163 -0400	commit: pipeline fixed update
+74a7f0f5362d2834e968552937bac2c9b4f6c020 626390724bf0a7b779ebe1d5e4549fe1b0517d96 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714728330 -0400	commit: pipeline fixed, database testing
+626390724bf0a7b779ebe1d5e4549fe1b0517d96 2dfc06529eba0686bb2e8311f0b05bb5f85a7a61 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714728925 -0400	commit: pipeline fixed, database testing
+2dfc06529eba0686bb2e8311f0b05bb5f85a7a61 25dd1cd77eee8324996ffec8d311acf575e45a86 Morten Lund Jakobsen @kali <FROM@LOCAL.kali> 1714986855 -0400	commit: Docker registry location changed
+25dd1cd77eee8324996ffec8d311acf575e45a86 fbd71cc06ddf4f5e70bdbff04600dc4bdf3098dd Your Name <you@example.com> 1724236326 -0400	commit: updated the pipeline

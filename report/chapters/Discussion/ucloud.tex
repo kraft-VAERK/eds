@@ -1,0 +1,30 @@
+\subsection{\ac{Ucloud} and cloud infrastructure.}
+For the pipeline to run together with \ac{HAAUKINS}, a kind of computational power or cloud provider is necessary.
+As \ac{SDU} is part of the \ac{Ucloud}\cite{ucloud}, a computational cloud provider, this thesis explored the 
+use of \ac{Ucloud} to deploy \ac{HAAUKINS} and the pipeline on that infrastructure.
+
+One of the first problems encountered with \ac{Ucloud} was the allocating of funds. In order 
+to spawn and run the desired machines necessary for a project on \ac{Ucloud}, ultimately these machines would have \ac{HAAUKINS} and 
+the pipeline running on them.
+Applying for grants is something that is done by a professor or a researcher at \ac{SDU}, and as a student,
+I had no influence over the allocation of funds.
+
+The next problem was the nested virtualization. Nested virtualization is 
+when a operating system gives the user or itself the possibility to run a virtual machine inside a virtual machine. As the 
+name suggests, it is a virtualization inside a virtualization.
+Nested virtualization is important because, \ac{Ucloud} will spawn 
+a virtual machine, on their bare metal which they grant the user access to. Since this project heavily focuses on running Docker images, 
+it is crucial to have access to PID 1 on the given machines in order to utilize the Linux systemctl. If the machine is booted without PID 1, 
+which is essentially the Linux init system, it will not be able to run Docker images.
+
+Upon starting to work with \ac{Ucloud}, the task of creating an infrastructure and using it publicly, was not as easy as initially thought.
+One of the core offerings of an \ac{IaaS} is the ability to run your code and applications on their infrastructure. 
+However, Ucloud does not allow users to spawn their own Docker images directly on their infrastructure. Instead, to run Docker images, 
+a user must launch an application defined on the Ucloud infrastructure 
+and then run the Docker images on that machine, provided the machine has access to PID 1.
+
+Ultimately, the project was completed without using \ac{Ucloud}, and the pipeline was deployed locally. 
+The integration of \ac{Ucloud} with \ac{HAAUKINS} and a pipeline remains uncertain. Out from the gathered 
+material and information about \ac{Ucloud} it seems, that it is only feasible to utilize \ac{Ucloud} 
+if \ac{DeiC} modifies its restrictions on internet access for spawned machines, 
+allowing bidirectional traffic to and from machines on the \ac{Ucloud} infrastructure on other protocols than \ac{SSH}.

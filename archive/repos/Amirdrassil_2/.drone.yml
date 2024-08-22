@@ -1,0 +1,36 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: mysql healthcheck
+    image: mysql:5.7
+    commands:
+      - while ! mysqladmin ping -h mysql-server -u photoview_test -pphotoview_test --silent; do sleep 1; done
+  - name: postgress healthcheck
+    image: postgres:13.2
+    commands:
+      - while ! pg_isready -d photoview_test -h postgres -p 5432 -U photoview ; do sleep 1; done
+  - name: test
+    image: node:lts-slim
+    commands:
+    - cd ui
+    - npm clean-install
+    - npm run test:ci
+
+services:
+  - name: mysql-server
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: photoview_db
+      MYSQL_USER: photoview_test
+      MYSQL_PASSWORD: photoview_test
+  - name: postgres
+    image: postgres:13.2
+    environment:
+      POSTGRES_USER: photoview
+      POSTGRES_PASSWORD: photosecret
+      POSTGRES_DB: photoview_test
+      POSTGRES_HOST_AUTH_METHOD: trust

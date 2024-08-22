@@ -1,0 +1,7 @@
+Faker
+GitPython
+click
+requests
+pyyaml
+pyjson
+python-slugify

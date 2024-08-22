@@ -1,0 +1,71 @@
+\chapter{Discussion}
+\label{sec:discussion}
+As the need for pipeline security and automation grows, so does the demand
+for educational and practice materials in these areas. While there may be
+resources available for specific tools, there will always be a need for materials
+or platforms that allow for practice in real-world scenarios. Therefore,
+having the pipeline available on a local setup and having it available on \ac{HAAUKINS} 
+will make the material for educational purposes more accessible.
+
+\section{Ucloud}
+\label{sec:discussion-ucloud}
+\input{chapters/Discussion/ucloud.tex}
+
+\section{HAAUKINS}
+\label{sec:discussion-haaukins}
+\input{chapters/Discussion/haaukins.tex}
+
+\section{Pipeline}
+\label{sec:discussion-pipeline}
+\input{chapters/Discussion/local_vs_remote.tex}
+
+\section{Reflections and improvements towards CTF's}
+\label{sec:discussion-future-work}
+Although the project is complete, the discussion has highlighted several problems and challenges encountered during its development. 
+This reflection has made it clear that there are still areas that need improvement and further work in the future. 
+
+\subsection{Last CTF, Supply chain attack}
+As mentioned at the end of section \ref{sec:ctf}, the last CTF in development 
+was not finished due to time constrains.
+This CTF is likely one of the more challenging ones, both in terms of implementation and for the user to solve. 
+Completing this CTF would have been a valuable addition to the pipeline.
+Although some of the development aspects of the creating CTF's was challenging,
+there were two main challenges that were unable to be achieved.
+\paragraph{Cron Job, for timed execution}
+Whenever creating a \javaf{Cron Job} for Drone the software, whenever creating it through the API or the CLI,
+adds the next execution time based on whenever the \javaf{Cron Job} was created.\\
+However, since the \javaf{Cron Job} was created by inserting it directly into the database, 
+the software was not present to do next execution time calculation and therefore the insertion of a wrong format in the database makes the 
+UI break for the \javaf{Cron Job} when viewed on the Drone UI.
+\paragraph{Implementation a exploit through the Docker image}
+The proposed solution for the \ac{CTF} challenge was to modify the Docker image used by Ulduar in its pipeline. 
+This Docker image could be updated through another repository Icecrown, 
+which had a pipeline containing credentials capable of altering the Docker image in the registry.
+However, during the development of the \ac{CTF}s, 
+it became clear that the Drone pipeline removes any commands or environmental variables inserted into the Docker image it uses. 
+Consequently, without knowing if there is an exploit of this nature for the Drone pipeline, implementing an exploit for this \ac{CTF} proved difficult.
+
+Therefore in the end, it was not achieved to implement this \ac{CTF} in the pipeline. 
+The source code for the \ac{CTF} is available in the repository, and it is possible to implement it in the future.
+
+\subsection{\ac{CTF}s on the pipeline}
+In the end of the thesis, it was possible for the pipeline to be tested by real users. 
+As for most of the project, it was only the author that tested, the feedback from the users was valuable.
+Here is some of the feedback given, but all the feedback is included in the appendix \ref{app:feedback}.
+\begin{itemize}
+    \item \textbf{Amirdrassil} 
+    One of the users had a difficult time, figuring out where the flag was located, because there 
+    was not any mention or use of any kind of security aspect in the pipeline. The user 
+    expressed that it would be an idea to change the password for one of the services used in the pipeline, to 
+    use the an environmental variable which was the flag.
+    \item \textbf{Firelands}
+    Having a file named "flag.py" makes every user just go to that file and grab the flag. 
+    The flag should be hidden better. The feedback gives a general sense of the training challenges missed its mark, 
+    because the user can just grab the flag without solving the challenge.
+    \item Another mentioned that instead of just handing over the credentials to the user account 
+    on Gitea and Drone, the user should have to figure out how to get the credentials.
+\end{itemize}
+
+The feedback indicates that the challenges in the pipeline does work, but when gamifying
+it, is important that there is only one way to solve challenges. When users does \ac{CTF}, they 
+will always choose the fastest option to exploit or solve the challenge.

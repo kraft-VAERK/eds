@@ -1,0 +1,10 @@
+# pack-refs with: peeled fully-peeled sorted 
+8f1ddf24bb9f43da1879da3d148b6bb9fab0b5ea refs/remotes/origin/dependabot/pip/flask-2.3.2
+52788bc5ab3e4359e31ce153e49d7e097dc99127 refs/remotes/origin/develop
+12ee0d1d707b76b1e998d5e4132db22bad451cde refs/remotes/origin/gh-pages
+8504bb5c504e958cef794788554c9f7b1f4942da refs/remotes/origin/master
+c3ca577c1e35fa3061950657a889f506459dd3f9 refs/tags/1.2
+f9b2195c51a13652e9b443105b43e1c34ac56207 refs/tags/1.3
+8504bb5c504e958cef794788554c9f7b1f4942da refs/tags/1.4
+1c0d73f416f44af9097de4e53bb273ff493caeaf refs/tags/v1.0
+41aa19fd03216cc25804f19796b7b2765febd63a refs/tags/v1.1

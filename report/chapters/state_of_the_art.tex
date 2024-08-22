@@ -1,0 +1,48 @@
+\chapter{State of the Art}
+
+\section*{\ac{CI/CD}}
+In this chapter, the discussion will focus on the tools and technologies employed in this pipeline. 
+Furthermore, other pipeline projects or Capture The Flag (CTF) challenges related to DevOps security will be introduced. 
+Before diving into the tools utilized in this pipeline, 
+the concept of Continuous Integration (\ac{CI}) and Continuous Deployment (\ac{CD}) will be introduced.
+
+While \ac{CI} and \ac{CD} are distinct acronyms, they are often combined into one term because they are closely related and commonly occur together.
+Continuous Integration (\ac{CI}) involves the continuous integration of code, where a set of practices, often automated, 
+are implemented to integrate code changes. The term "continuous" in \ac{CI} refers to the ongoing nature of these practices 
+rather than the code integration never stopping. \ac{CI} facilitates quicker feedback, 
+enabling developers to observe their code in action promptly, making it easier to identify and rectify bugs and errors. 
+The adoption of \ac{CI} doesn't necessarily mandate the use of sophisticated tools or pipelines; 
+it simply promotes project agility and responsiveness to changes.\\
+Continuous Deployment (\ac{CD}) is closely tied to \ac{CI}, as most software, when created, is ultimately exposed 
+to users in some form, necessitating deployment. Thus, \ac{CD} complements \ac{CI}, ensuring that software changes 
+are efficiently deployed and made available to users.\cite{duvall2007continuous}
+
+The adoption of Continuous Integration and Continuous Deployment (\ac{CI/CD}) 
+typically involves the implementation of a pipeline. A pipeline comprises a series of automated 
+processes executed in a predefined sequence. It serves to automate tasks such as building, testing, and deploying software.\\
+Constructing a pipeline entails utilizing a set of tools to establish an integrated infrastructure.
+A pipeline can be as simple as a single script or as complex as a series of scripts orchestrated by a pipeline platform.\\
+The tools discussed in this section are specifically those employed in the pipeline for this project. 
+Notably, Ngrok, as discussed in Section \ref{sec:ngrok}, is the only tool not utilized in the final pipeline. 
+However, its inclusion in this section is warranted as it played a role in addressing 
+challenges encountered during the development of the remote pipeline (Section \ref{sec:pipeline_remote}) which not either in use.
+
+\section{Tools}
+\label{sec:tools}
+\input{chapters/State_of_The_art/tools/docker.tex}
+
+\input{chapters/State_of_The_art/tools/gitea.tex}
+
+\input{chapters/State_of_The_art/tools/drone.tex}
+
+\input{chapters/State_of_The_art/tools/ngrok.tex}
+
+\input{chapters/State_of_The_art/tools/proxy.tex}
+
+\input{chapters/State_of_The_art/tools/registry.tex}
+
+\input{chapters/State_of_The_art/tools/certificate.tex}
+
+\input{chapters/State_of_The_art/ci-cd/other-cicd-tools.tex}
+
+\newpage

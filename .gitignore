@@ -1,0 +1,105 @@
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.toc
+*.gz
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.xdy
+*.lof
+*.lot
+*.maf
+*.mtc*
+*.xdv
+*.bcf
+*.run.xml
+
+# LaTeX document compilation output
+# *.pdf
+
+# Temporary files
+*~
+
+# Editor-specific files
+*.swp
+*.bak
+*.dvi
+*.synctex(busy)
+*.synctex.gz(busy)
+# Python3
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+report/_minted-report/
+
+
+# C extensions
+*.so
+*.pdf
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+
+# misc
+venv/
+src/admin/__pycache__/*
+src/drone/repositories/Abberus/not.git/config
+logs.txt
+src/drone/drone.yaml
+.vscode/
+
+
+

@@ -1,0 +1,46 @@
+\section{CI/CD CTF Pipeline}
+\label{sec:ci-cd-ctf-pipeline}
+As this project focuses on the development of a pipeline for the creation and deployment of \ac{CTF} challenges, 
+it is essential to understand the available pipeline platforms, that are already out there. 
+Even though there may not be an existing pipeline exactly 
+like the one being developed, it is still important to understand what other tools can and cannot do. 
+In this section, I will briefly some of the pipelines that I consider noteworthy. 
+These pipelines have some merits in terms of what I believe a pipeline should be able to do and what it should not do.
+
+
+\paragraph{CICD-Goat}
+\label{par:cicd-goat}
+The CICD-Goat\cite{cicd-goat} is one of the other \ac{CTF} pipelines that is out there.
+The pipeline is created based on the OWASP Top 10 CI/CD security risk\cite{owasp-cicd-top-10} list.
+The pipeline is aimed toward developers, security professionals, and others who are interested in understanding the \ac{CI/CD} pipeline.
+The pipeline is constructed with technology of Gitea, Jenkins, Gitlab and Gitlab runners.
+The pipeline infrastructure is build inside Docker containers and used localhost to export the website.
+It used a local instance of CTFd to host the challenges and report the flag.
+
+The CICD-goat project has a lot of merit in the sense that they focus on real proven scenarios that 
+is happening to pipelines in productions settings, anyhow the project uses an old technology in Jenkins. Jenkins 
+is a great tool, but in the sense of a modern pipeline and pipeline structure, Jenkins is outdated.
+
+\paragraph{Poursoft}
+\label{par:poursoft}
+Poursoft is the recent create pipeline for the national \ac{DDC}. It was created by Oliver Nordestgaard
+and was used in the national \ac{DDC} 2024. The pipeline utilize many of the same tools as the pipeline for this project.
+The pipeline is not open-source and can't be referenced in this project. Although through my work on \ac{DDC} 2024,
+I had access to the repository and could see how the pipeline was constructed. The pipeline was constructed with the following tools:
+\begin{itemize}
+    \item \javaf{Gitea} as the git repository.
+    \item \javaf{DroneCI} for the pipeline
+    \item \javaf{Ngnix} for a websever and reverse proxy
+    \item \javaf{Haaukins} for the deployment of the challenges
+\end{itemize}
+
+\paragraph{Tryhackme, Hackthebox, and other commercial projects}
+\label{par:tryhackme-hackthebox}
+TryHackMe and Hack The Box are both commercial platforms and are not open-source. They require a subscription fee for access.
+On TryHackMe\cite{tryhackme}, it is possible to view available challenges without logging into the website. 
+TryHackMe offers numerous challenges relevant to pipelines. While not directly focused on pipelines, 
+these challenges involve tools commonly used in pipelines, such as Docker, Kubernetes, GitLab, DevSecOps practices, and more.\\
+Hack The Box\cite{hackthebox} primarily focuses on the exploitation of machines. After exploring their website, it appears they have a few 
+DevOps-related challenges. However, 
+the specific focus of these challenges is not clearly indicated, making it difficult to assess their relevance to DevOps Capture The Flag (CTF) events.
+

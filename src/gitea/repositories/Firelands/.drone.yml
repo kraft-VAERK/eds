@@ -1,0 +1,32 @@
+## ----  Step 1  ------
+# kind: 
+# type: 
+# name:
+## ----  Step 2  ------
+# steps:
+#   - name: 
+#     image:
+#     commands:
+## ----  Step 4  ------
+#- name:
+#  image:
+#  commands:
+# environment:
+# PASSWORD:
+# from_secret:
+# USERNAME:
+# from_secret:
+## ----  Step 5  ------
+#- name:
+#  image:
+#  commands:
+# environment:
+# PASSWORD:
+# from_secret:
+# USERNAME:
+# from_secret:
+## ----  Step 3  ------
+# services:
+#   - name: 
+#     image:
+#     commands

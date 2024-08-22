@@ -1,0 +1,127 @@
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile.proxy
+    image: eds-local-proxy:latest
+    container_name: proxy
+    restart: always
+    networks:
+      network_eds:
+        aliases:
+          - devops.hkn
+          - git.devops.hkn
+          - drone.devops.hkn
+          - registry.devops.hkn
+    ports:
+      - "80:80"
+      - "443:443"
+
+  gitea:
+    build:
+      context: .
+      dockerfile: gitea/Dockerfile.gitea
+    image: eds-local-gitea:latest
+    container_name: ${GITEA_CONTAINER_NAME}
+    restart: always
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - DRONE_GITEA_CLIENT_ID=${GITEA_OAUTH_CLIENT_ID}
+      - DRONE_GITEA_CLIENT_SECRET=${GITEA_OAUTH_CLIENT_SECRET_HASH}
+      - DRONE_GITEA_URL=https://${DRONE_SERVER}/login
+      - GITEA_URL=https://${GITEA_SERVER}
+      - ADMIN_USERNAME=${GITEA_ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${GITEA_ADMIN_PASSWORD}
+      - NEW_INSTALL=yes
+    networks:
+      network_eds:
+        aliases:
+          - internalgit.devops.hkn
+
+  drone:
+   build:
+     context: .
+     dockerfile: drone/Dockerfile.drone
+   image: eds-local-drone:latest
+   container_name: ${DRONE_CONTAINER_NAME}
+   restart: always
+   environment:
+     - DRONE_SERVER_HOST=${DRONE_SERVER}
+     - DRONE_GITEA_CLIENT_ID=${GITEA_OAUTH_CLIENT_ID}
+     - DRONE_GITEA_CLIENT_SECRET=${GITEA_OAUTH_CLIENT_SECRET}
+     - DRONE_GITEA_SERVER=https://${GITEA_SERVER}
+     - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+     - DRONE_SERVER_PROTO=${DRONE_SERVER_PROTO}
+     - DRONE_GIT_ALWAYS_AUTH=false
+     - DRONE_TLS_AUTOCERT=false
+     - DRONE_RPC_SKIP_VERIFY=true
+   networks:
+     network_eds:
+      aliases:
+        - internaldrone.devops.hkn
+  drone-runners:
+    build:
+      context: .
+      dockerfile: drone-runners/Dockerfile.runners-docker
+    image: eds-local-drone-runners:latest
+    container_name: ${DRONE_RUNNER_CONTAINER_NAME}
+    restart: always
+    environment:
+    - DRONE_RPC_PROTO=${DRONE_SERVER_PROTO}
+    - DRONE_RPC_HOST=${DRONE_SERVER}
+    - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+    - DRONE_RUNNER_CAPACITY=${DRONE_RUNNER_CAPACITY}
+    - DRONE_RUNNER_NETWORKS=${NETWORK_NAME}
+    - DRONE_RUNNER_NAME=drone-runner
+    - DRONE_RPC_SKIP_VERIFY=true
+    - skip_verify=true
+    - DRONE_RUNNER_VOLUMES=/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt,/etc/docker/certs.d:/etc/docker/certs.d,/var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3000:3000"
+    networks:
+      network_eds:
+        aliases:
+          - internalrunner.devops.hkn
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
+      - /etc/docker/certs.d:/etc/docker/certs.d
+      # - /root/.docker/config.json:/root/.docker/config.json
+  registry:
+    build:
+      context: .
+      dockerfile: registry/Dockerfile.registry
+    image: eds-local-registry:latest
+    container_name: ${REGISTRY_CONTAINER_NAME}
+    restart: always
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+      - REGISTRY_HTTPS_ADDR=${REGISTRY_SERVER}:443
+    ports:
+      - "5000:5000"
+    networks:
+      network_eds:
+        aliases:
+          - internalregistry.devops.hkn
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile.web
+    image: eds-local-web:latest
+    container_name: ${WEB_CONTAINER_NAME}
+    restart: always
+    networks:
+      network_eds:
+        aliases:
+          - internalweb.devops.hkn
+  
+networks:
+  network_eds:
+    external: true
+    name: network_eds

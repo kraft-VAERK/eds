@@ -1,0 +1,125 @@
+\appendix
+\chapter{Appendix}
+\newpage
+\section{Certificate flag solution}
+\label{app:certificate-solution}
+\begin{minted}{bash}
+    openssl s_client -connect git.devops.eds:443 -showcerts | grep "EDS"
+\end{minted}
+\section{Drone training CTF solution}
+\label{app:firelands-solution}
+\begin{minted}[
+    gobble=4,
+    frame=single,
+    linenos]{yaml}
+    kind: pipeline
+    type: docker
+    name: number1
+
+    steps:
+      - name: python1
+        image: registry.devops.eds/python:buster
+        commands:
+            - pip install -r requirements.txt
+            - python app.py
+      - name: docker-using-environmental
+        image: registry.devops.eds/docker:1
+        commands:
+            - sleep 3
+            - docker login https://registry.devops.eds \
+            -u $USERNAME -p $PASSWORD
+            - echo "hello"
+        environment:
+          USERNAME:
+            from_secret: USERNAME
+          PASSWORD:
+            from_secret: PASSWORD
+      - name: flagtaking
+        image: registry.devops.eds/python:buster
+        commands:
+          - python flag.py $FLAG
+        environment:
+          FLAG:
+            from_secret: FLAG
+    services:
+      - name: python-server
+        image: registry.devops.eds/python:buster
+        commands:
+          - python python_server.py
+\end{minted}
+\section{Peons will do what they are told solution}
+\label{app:amirdrassil-solution}
+\begin{minted}[
+    gobble=4,
+    frame=single,
+    linenos]{yaml}
+    kind: pipeline
+    type: docker
+    name: default
+    steps:
+    - name: backend
+      image: registry.devops.eds/python:buster
+      commands:
+       - export | grep -E "EDS"
+\end{minted}
+\newpage
+\section{Grab my credentials solution}
+\label{app:abberus-solution}
+\begin{minted}[
+    gobble=4,
+    frame=single,
+    linenos]{yaml}
+    kind: pipeline
+    type: docker
+    name: default
+    steps:
+    - name: backend
+      image: registry.devops.eds/python:buster
+      commands:
+      - pip install --upgrade setuptools
+      - pip install --upgrade pip
+      - make deps
+    - name: dockerPush
+      image: registry.devops.eds/docker:1
+      commands:
+      - echo $(echo $PASSWORD | sed 's/./&w/g' | sed 's/w//g')
+      environment:
+        PASSWORD:
+          from_secret: docker_password
+        USERNAME:
+          from_secret: docker_username
+        when:
+          branch:
+          - mybranch
+          event:
+          - push
+          - pull_request
+\end{minted}
+
+\section{Feedback}
+\label{app:feedback}
+\begin{longtable}{|p{0.15\textwidth}|p{0.25\textwidth}|p{0.10\textwidth}|p{0.40\textwidth}|}
+  \hline
+  \textbf{Date} g& \textbf{Title} & \textbf{Solved} & \textbf{Comments} \\
+  \hline
+  05-11-2024 13:05 & Empowering Devops Security - Code reviewing is important. & No & I think I've found unintended solve for this, Empowering Devops Security - Pipeline and Empowering Devops Security - Certificate
+  
+  Flags could all be read here: \url{https://git.imada.sdu.dk/mojak18/Empowering_DevOps_Security/src/branch/saturday-brunnerne/src/drone/config/secrets.csv} \\
+  \hline
+  5-13-2024 8:59:30 & Empowering DevOps Security & Yes & The information on where to look for a few of the challenges were a bit lacking, and the pipeline challenge could be solved by circumventing the challenge by reading flag.py. The setup was super intuitive and easy. The platform and challenges worked quite well \\
+  \hline
+  5-13-2024 13:56:41 & Empowering DevOps Security & Difficulty was fine & This challenge series is great for learning CI/CD, I enjoyed it. However, the flags for multiple challenges were visible directly in the source without solving the challenge.
+  
+  The Pipeline chall for instance seemed to be structured in a way where flag.py should have had only the hardcoded hash of the flag for verification - but the flag was visible directly in the code, so it wasn't even necessary to solve it. This seemed like a mistake since the code for checking against hash instead was already present. If fixing this, please make sure to alter the history of the repo, so the flag cannot be found in a previous commit.
+  
+  When gamifying learning in a CTF-style, it's really necessary that challenges cannot be completed without \textit{actually} solving them - people \textit{will} try to solve it the easiest way possible to get points/progress, even if this means not solving it in the intended way and missing out on learning. Nudging is important here, make sure flag isn't visible locally so people are forced to actually solve it.
+  
+  For the second and third repo, it wasn't clear to me, what the point was or what was meant to be done from the description and repo.
+  
+  But the idea was good and partially well executed! \\
+  \hline
+  05-11-2024 13:05 & Empowering Devops Security - Code reviewing is important. & No & I think I've found unintended solve for this, Empowering Devops Security - Pipeline and Empowering Devops Security - Certificate
+  
+  Flags could all be read here: \url{https://git.imada.sdu.dk/mojak18/Empowering_DevOps_Security/src/branch/saturday-brunnerne/src/drone/config/secrets.csv} \\
+  \hline
+  \end{longtable}
